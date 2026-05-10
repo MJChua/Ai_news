@@ -17,7 +17,8 @@ export const metadata: Metadata = {
     default: "AI News Radar",
     template: "%s | AI News Radar",
   },
-  description: "人工校對來源與日期的 AI 發展資訊網站，聚焦前端、開發工具與模型比較。",
+  description:
+    "每週查證官方與一手來源的 AI 最新資料，聚焦 AI 工具、軟體工程、前端工程與 AI 議題。",
 };
 
 export default function RootLayout({

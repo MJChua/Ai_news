@@ -15,6 +15,7 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Quality Checks
 
 ```bash
+npm run hackmd:check
 npm run lint
 npm run build
 ```
@@ -36,11 +37,27 @@ Current branch policy:
 - [AGENTS.md](./AGENTS.md): short operational rules for AI coding agents.
 - [docs/ai/agent-working-patterns.md](./docs/ai/agent-working-patterns.md): detailed work routine and scope control.
 - [docs/ai/content-verification.md](./docs/ai/content-verification.md): article source and verification rules.
+- [docs/ai/weekly-news-update.md](./docs/ai/weekly-news-update.md): Sunday weekly news update procedure.
+
+## HackMD Body Sync
+
+Article body Markdown lives in HackMD. Configure a local token before syncing:
+
+```bash
+cp .env.example .env.local
+# Fill HACKMD_API_TOKEN in .env.local
+npm run hackmd:push
+npm run hackmd:pull
+npm run hackmd:check
+```
 
 ## Key Files
 
 - `app/page.tsx`: homepage layout.
 - `app/articles/[slug]/page.tsx`: article detail page.
 - `lib/articles.ts`: typed article data and comparison data.
+- `content/hackmd/articles.json`: HackMD article note manifest.
+- `data/generated/hackmd-articles.json`: generated HackMD body cache.
+- `scripts/hackmd-sync.mjs`: HackMD API sync commands.
 - `.github/workflows/weekly-sit-merge.yml`: weekly `dev` to `sit` merge automation.
 

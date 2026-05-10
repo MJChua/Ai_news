@@ -1,11 +1,14 @@
 import Link from "next/link";
 import {
   articles,
-  categories,
+  coverageBucketLabels,
   comparisons,
   featuredArticle,
   frontendArticles,
   recentArticles,
+  sourceTypeLabels,
+  weeklyCoverageRules,
+  type Article,
 } from "@/lib/articles";
 
 export default function Home() {
@@ -19,24 +22,20 @@ export default function Home() {
                 AI News Radar
               </p>
               <h1 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-white md:text-6xl">
-                近期 AI 發展，先查證再整理。
+                每週 AI 最新資料，先查證再整理。
               </h1>
             </div>
             <p className="max-w-xl text-sm leading-6 text-slate-300">
-              聚焦前端技術、模型能力與產品變化；每則內容保留事件日期、發布日期、來源與校對備註，方便快速掃讀與後續追蹤。
+              固定以官方與一手來源為主，追蹤 AI 工具、模型、軟體工程、前端工程與 AI 議題。每則資料保留日期、來源、查證時間與校對備註。
             </p>
           </div>
-          <nav className="flex flex-wrap gap-2 text-sm text-slate-300">
-            {categories.map((category) => (
-              <a
-                className="rounded border border-white/10 px-3 py-2 transition hover:border-cyan-300 hover:text-white"
-                href={`#${category.id}`}
-                key={category.id}
-              >
-                {category.label}
-              </a>
+          <div className="flex flex-wrap gap-2 text-sm text-slate-300">
+            {weeklyCoverageRules.targets.map((target) => (
+              <span className="rounded border border-white/10 px-3 py-2" key={target}>
+                {target}
+              </span>
             ))}
-          </nav>
+          </div>
         </div>
       </header>
 
@@ -44,9 +43,7 @@ export default function Home() {
         <section className="grid gap-5">
           <article className="border border-white/10 bg-[#111722] p-5 shadow-2xl shadow-black/30 sm:p-7">
             <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.18em]">
-              <span className="bg-cyan-300 px-2 py-1 text-slate-950">
-                主焦點
-              </span>
+              <span className="bg-cyan-300 px-2 py-1 text-slate-950">最新焦點</span>
               <span className="border border-white/10 px-2 py-1 text-slate-300">
                 {featuredArticle.category}
               </span>
@@ -58,22 +55,22 @@ export default function Home() {
               {featuredArticle.summary}
             </p>
             <div className="mt-6 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
-              <Info label="事件日期" value={featuredArticle.eventDate} />
               <Info label="發布日期" value={featuredArticle.publishedDate} />
+              <Info label="查證日期" value={featuredArticle.checkedAt} />
               <Info label="前端關聯" value={featuredArticle.frontendRelevance} />
             </div>
             <Link
               className="mt-7 inline-flex items-center border border-cyan-300 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300 hover:text-slate-950"
               href={`/articles/${featuredArticle.slug}`}
             >
-              閱讀校對紀錄
+              閱讀來源與校對
             </Link>
           </article>
 
           <section id="frontend" className="grid gap-4">
-            <SectionTitle eyebrow="Front-end Signal" title="前端技術相關重點" />
+            <SectionTitle eyebrow="Engineering Signal" title="軟體與前端工程相關" />
             <div className="grid gap-4 md:grid-cols-2">
-              {frontendArticles.map((article) => (
+              {frontendArticles.slice(0, 4).map((article) => (
                 <ArticleCard article={article} key={article.slug} />
               ))}
             </div>
@@ -105,12 +102,12 @@ export default function Home() {
           </section>
 
           <section className="border border-white/10 bg-[#17131f] p-5">
-            <SectionTitle eyebrow="Checklist" title="上站前校對要求" />
+            <SectionTitle eyebrow="Weekly Rule" title="週日更新規則" />
             <ul className="mt-5 grid gap-3 text-sm leading-6 text-slate-300">
-              <li>必填事件日期與發布日期。</li>
-              <li>至少一個可追溯來源連結。</li>
-              <li>校對備註需說明採用來源與限制。</li>
-              <li>與其他 AI 比較時標示比較維度。</li>
+              <li>每週日更新過去 7 天資料。</li>
+              <li>每週 8-10 則，來源以官方/一手為主。</li>
+              <li>禁止用猜測、模擬或想像內容補數量。</li>
+              <li>更新時需從 dev 開 feature/renew_news_... 分支。</li>
             </ul>
           </section>
         </aside>
@@ -118,14 +115,14 @@ export default function Home() {
 
       <section className="border-y border-white/10 bg-[#0d1118]" id="models">
         <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
-          <SectionTitle eyebrow="Comparison" title="AI 產品與模型比較" />
+          <SectionTitle eyebrow="Comparison" title="本週觀察軸線" />
           <div className="mt-5 grid gap-4 lg:grid-cols-3">
             {comparisons.map((item) => (
               <article className="border border-white/10 bg-[#111722] p-5" key={item.name}>
                 <h3 className="text-xl font-semibold text-white">{item.name}</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-300">{item.strength}</p>
                 <div className="mt-5 grid gap-3 text-sm">
-                  <Info label="適合場景" value={item.bestFor} />
+                  <Info label="適合追蹤" value={item.bestFor} />
                   <Info label="注意事項" value={item.watch} />
                 </div>
               </article>
@@ -134,8 +131,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10" id="products">
-        <SectionTitle eyebrow="Archive" title="全部文章" />
+      <section className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10" id="archive">
+        <SectionTitle eyebrow="Archive" title="全部資料" />
         <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
             <ArticleCard article={article} key={article.slug} />
@@ -166,10 +163,10 @@ function Info({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ArticleCard({ article }: { article: (typeof articles)[number] }) {
+function ArticleCard({ article }: { article: Article }) {
   return (
     <Link
-      className="group grid min-h-64 content-between border border-white/10 bg-[#10151f] p-5 transition hover:border-cyan-300 hover:bg-[#121b29]"
+      className="group grid min-h-72 content-between border border-white/10 bg-[#10151f] p-5 transition hover:border-cyan-300 hover:bg-[#121b29]"
       href={`/articles/${article.slug}`}
     >
       <div>
@@ -178,7 +175,7 @@ function ArticleCard({ article }: { article: (typeof articles)[number] }) {
             {article.category}
           </span>
           <span className="bg-[#3b2f16] px-2 py-1 text-amber-100">
-            {article.frontendRelevance}
+            前端關聯：{article.frontendRelevance}
           </span>
         </div>
         <h3 className="mt-4 text-xl font-semibold leading-7 text-white group-hover:text-cyan-200">
@@ -186,9 +183,13 @@ function ArticleCard({ article }: { article: (typeof articles)[number] }) {
         </h3>
         <p className="mt-3 text-sm leading-6 text-slate-400">{article.summary}</p>
       </div>
-      <p className="mt-5 text-xs text-slate-500">
-        {article.publishedDate} / {article.sources[0].name}
-      </p>
+      <div className="mt-5 grid gap-2 text-xs text-slate-500">
+        <p>
+          {article.publishedDate} / {article.sources[0].name} /{" "}
+          {sourceTypeLabels[article.sources[0].sourceType]}
+        </p>
+        <p>{article.coverageBuckets.map((bucket) => coverageBucketLabels[bucket]).join(" / ")}</p>
+      </div>
     </Link>
   );
 }

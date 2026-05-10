@@ -29,6 +29,16 @@ npm run build
 - If Git conflicts occur, the workflow should fail and a human must resolve the conflict.
 - Do not use `sit` as a daily development branch.
 
+## Weekly News Update
+
+- Every Sunday, update AI news for the previous 7 days.
+- Start from `dev` and create `feature/renew_news_<english-summary>`.
+- Add or update 8-10 verified items when enough official or primary sources exist.
+- If verified sources are insufficient, publish fewer items and explain the exclusion in the PR.
+- Store article body Markdown in HackMD and sync it through the HackMD API.
+- The PR body must include date range, source list, coverage ratio summary, verification notes, and excluded notable candidates.
+- Do not merge directly into `dev`; push the feature branch and open a PR.
+
 ## Production Rules
 
 - `production` exists only as a placeholder until a real release setup exists.
@@ -41,5 +51,6 @@ npm run build
 - Code changes: `npm run lint` and `npm run build`.
 - UI changes: desktop and mobile layout check.
 - Article content changes: verify dates, sources, URLs, and verification notes.
+- Weekly news changes: run `npm run hackmd:check`, then follow `docs/ai/weekly-news-update.md`.
 - Workflow changes: inspect YAML and confirm branch names match this document.
 
