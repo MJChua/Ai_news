@@ -1,35 +1,45 @@
-# 開發流程規範
+# Development Workflow
 
-## 分支規劃
+## Branches
 
-- `master`：專案初始建置與主要基準分支。
-- `dev`：日常開發整合分支，所有功能與修正都從這裡開分支。
-- `sit`：每週 sprint 整合測試分支，由自動流程定期從 `dev` 合併。
-- `production`：正式環境分支；未來有專屬網域與正式部署流程後才合併。
+- `master`: project bootstrap and baseline branch.
+- `dev`: daily integration branch. Create normal work branches from here.
+- `sit`: weekly sprint integration testing branch. The scheduled workflow attempts to merge `dev` into `sit`.
+- `production`: future production branch. Do not merge into it until a dedicated domain, deployment target, and release checks exist.
 
-## 日常開發流程
+## Daily Development
 
-1. 從 `dev` 更新最新內容。
-2. 新功能使用 `feature/<描述>` 分支。
-3. 錯誤修正使用 `bug/<描述>` 分支。
-4. 完成後合回 `dev`。
-5. 合回前需至少執行：
+1. Sync `dev`.
+2. Create a working branch from `dev`.
+3. Use `feature/<short-name>` for new features.
+4. Use `bug/<short-name>` for normal bug fixes.
+5. Merge completed work back into `dev`.
+6. Before merge, run:
 
 ```bash
 npm run lint
 npm run build
 ```
 
-## 每週 Sprint 與 SIT
+## Weekly Sprint And SIT
 
-- 每週為一個 sprint 週期。
-- GitHub Actions 會每週自動嘗試將 `dev` 合併到 `sit`。
-- 若自動合併發生衝突，workflow 會失敗，需人工解衝突後再推回 `sit`。
-- `sit` 用於整合測試，不直接作為正式發布來源。
+- One week is treated as one sprint cycle.
+- `.github/workflows/weekly-sit-merge.yml` runs weekly and can also be triggered manually.
+- The workflow attempts to merge `origin/dev` into `sit`.
+- If Git conflicts occur, the workflow should fail and a human must resolve the conflict.
+- Do not use `sit` as a daily development branch.
 
-## Production 規則
+## Production Rules
 
-- `production` 目前只建立分支，不做自動合併。
-- 只有在未來專屬網域、部署設定與正式驗收條件完成後，才允許從穩定分支合併到 `production`。
-- 合併到 `production` 前必須通過 lint、build 與人工畫面檢查。
+- `production` exists only as a placeholder until a real release setup exists.
+- Do not auto-merge into `production`.
+- Only merge into `production` after domain, deployment, release validation, and rollback rules are documented.
+- Production promotion must pass lint, build, and manual UI smoke checks.
+
+## Required Checks
+
+- Code changes: `npm run lint` and `npm run build`.
+- UI changes: desktop and mobile layout check.
+- Article content changes: verify dates, sources, URLs, and verification notes.
+- Workflow changes: inspect YAML and confirm branch names match this document.
 

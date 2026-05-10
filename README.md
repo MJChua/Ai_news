@@ -1,16 +1,16 @@
 # AI News Radar
 
-AI News Radar 是一個深色系 AI 新聞資訊站，使用 Next.js App Router、React、TypeScript 與 Tailwind CSS 建置。內容以人工整理為主，每則文章都保留事件日期、發布日期、來源與校對備註。
+AI News Radar is a dark, readable AI news and comparison site built with Next.js App Router, React, TypeScript, and Tailwind CSS.
+
+The first version uses manually curated local article data. Each article must keep event date, published date, source name, source URL, and verification note.
 
 ## Getting Started
-
-Install dependencies and run the development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Quality Checks
 
@@ -25,11 +25,17 @@ Branching and sprint rules are documented in [DEVELOPMENT.md](./DEVELOPMENT.md).
 
 Current branch policy:
 
-- `master`: project bootstrap and base branch.
+- `master`: project bootstrap and baseline branch.
 - `dev`: daily integration branch.
 - `feature/<name>` and `bug/<name>`: created from `dev`.
 - `sit`: weekly sprint integration branch.
 - `production`: reserved until a dedicated domain and release flow are ready.
+
+## AI And Engineering Guidance
+
+- [AGENTS.md](./AGENTS.md): short operational rules for AI coding agents.
+- [docs/ai/agent-working-patterns.md](./docs/ai/agent-working-patterns.md): detailed work routine and scope control.
+- [docs/ai/content-verification.md](./docs/ai/content-verification.md): article source and verification rules.
 
 ## Key Files
 
