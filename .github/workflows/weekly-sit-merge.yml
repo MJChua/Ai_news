@@ -1,0 +1,31 @@
+name: Weekly SIT merge
+
+on:
+  schedule:
+    - cron: "0 16 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  merge-dev-into-sit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge dev into sit
+        run: |
+          git fetch origin dev sit
+          git checkout sit
+          git merge --no-ff origin/dev -m "chore: weekly sprint merge dev into sit"
+          git push origin sit
+
