@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "hackmd:push": "node scripts/hackmd-sync.mjs push",
+    "hackmd:pull": "node scripts/hackmd-sync.mjs pull",
+    "hackmd:check": "node scripts/hackmd-sync.mjs check"
   },
   "dependencies": {
     "next": "16.2.6",

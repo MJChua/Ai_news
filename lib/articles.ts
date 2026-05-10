@@ -5,10 +5,20 @@ export type ArticleCategory =
   | "公司與產業動態"
   | "比較分析";
 
+export type FrontendRelevance = "高" | "中" | "低";
+
+export type CoverageBucket =
+  | "ai-tech-tools"
+  | "software-frontend-engineering"
+  | "ai-issue";
+
+export type SourceType = "official" | "primary" | "secondary";
+
 export type Source = {
   name: string;
   url: string;
   publishedDate: string;
+  sourceType: SourceType;
 };
 
 export type Article = {
@@ -18,7 +28,10 @@ export type Article = {
   category: ArticleCategory;
   eventDate: string;
   publishedDate: string;
-  frontendRelevance: "高" | "中" | "低";
+  checkedAt: string;
+  weeklyIssueDate: string;
+  frontendRelevance: FrontendRelevance;
+  coverageBuckets: CoverageBucket[];
   comparisonTargets: string[];
   sources: Source[];
   verificationNote: string;
@@ -27,137 +40,384 @@ export type Article = {
 
 export const categories = [
   { id: "frontend", label: "前端與開發工具" },
-  { id: "models", label: "模型比較" },
-  { id: "products", label: "全部文章" },
+  { id: "models", label: "AI 模型與平台" },
+  { id: "issues", label: "AI 議題" },
+  { id: "archive", label: "近期資料" },
 ] as const;
 
-export const articles = [
-  {
-    slug: "openai-gpt-51-developers",
-    title: "OpenAI 發布 GPT-5.1，強調編碼體驗與回應效率",
-    summary:
-      "GPT-5.1 面向 API 開發者推出，重點放在自適應推理、低延遲模式、較好的編碼行為，以及 Responses API 的 apply_patch 與 shell 工具。",
-    category: "AI 模型與平台",
-    eventDate: "2025-11-13",
-    publishedDate: "2025-11-13",
-    frontendRelevance: "高",
-    comparisonTargets: ["GPT-5", "Claude 4", "Gemini 2.5 Pro"],
-    sources: [
-      {
-        name: "OpenAI",
-        url: "https://openai.com/index/gpt-5-1-for-developers/",
-        publishedDate: "2025-11-13",
-      },
-    ],
-    verificationNote:
-      "以 OpenAI 官方發布頁為準；頁面明列日期、API 可用性、編碼能力與新工具說明。",
-    keyPoints: [
-      "適合追蹤 AI 輔助開發、程式碼修改與 agentic coding 工作流。",
-      "和 GPT-5 相比，官方重點放在更動態的推理時間與較快的簡單任務回應。",
-      "前端關聯高，因官方明確提到更 functional 的 frontend designs 與程式碼品質。",
-    ],
-  },
-  {
-    slug: "gemini-25-pro-web-apps",
-    title: "Google 更新 Gemini 2.5 Pro Preview，主打互動式 Web App 能力",
-    summary:
-      "Google 在 I/O 前提前釋出 Gemini 2.5 Pro Preview 更新，明確把 coding 與 rich interactive web apps 作為主要改善方向。",
-    category: "前端與開發工具",
-    eventDate: "2025-05-06",
-    publishedDate: "2025-05-06",
-    frontendRelevance: "高",
-    comparisonTargets: ["GPT-5.1", "Claude Sonnet 4", "Vercel AI SDK 5"],
-    sources: [
-      {
-        name: "Google The Keyword",
-        url: "https://blog.google/products-and-platforms/products/gemini/gemini-2-5-pro-updates/",
-        publishedDate: "2025-05-06",
-      },
-    ],
-    verificationNote:
-      "以 Google 官方 The Keyword 文章為準；標題與內文直接指向互動式 Web App 與 coding 改善。",
-    keyPoints: [
-      "適合放在前端開發工具觀察欄位。",
-      "可和其他 coding model 比較 UI 生成、程式碼修改、agent workflow 能力。",
-      "目前資料只採官方發布內容，不延伸推測實測排名。",
-    ],
-  },
-  {
-    slug: "anthropic-claude-4-coding-agents",
-    title: "Anthropic 發布 Claude 4，強調長任務編碼與 AI agents",
-    summary:
-      "Claude Opus 4 與 Sonnet 4 發布，官方將 coding、advanced reasoning、AI agents 作為核心定位，同時宣布 Claude Code 正式可用。",
-    category: "AI 模型與平台",
-    eventDate: "2025-05-22",
-    publishedDate: "2025-05-22",
-    frontendRelevance: "中",
-    comparisonTargets: ["GPT-5.1", "Gemini 2.5 Pro", "Claude Code"],
-    sources: [
-      {
-        name: "Anthropic",
-        url: "https://www.anthropic.com/news/claude-4",
-        publishedDate: "2025-05-22",
-      },
-    ],
-    verificationNote:
-      "以 Anthropic 官方新聞稿為準；頁面列出 Claude 4 發布日期、模型定位與 Claude Code 狀態。",
-    keyPoints: [
-      "重點是長時間、多步驟的程式任務與 agent workflow。",
-      "前端關聯屬中等，較偏通用軟體工程與 IDE/CLI 工作流。",
-      "可和 OpenAI、Google 的 coding model 更新放在同一比較表。",
-    ],
-  },
-  {
-    slug: "vercel-ai-sdk-5",
-    title: "Vercel AI SDK 5 發布，強化型別安全聊天與 agent loop 控制",
-    summary:
-      "AI SDK 5 面向 TypeScript/JavaScript 全端應用，推出 redesigned chat、agentic loop control、工具改善與跨框架 UI 整合。",
-    category: "前端與開發工具",
-    eventDate: "2025-07-31",
-    publishedDate: "2025-07-31",
-    frontendRelevance: "高",
-    comparisonTargets: ["React", "Vue", "Svelte", "Angular", "OpenAI API"],
-    sources: [
-      {
-        name: "Vercel",
-        url: "https://vercel.com/blog/ai-sdk-5",
-        publishedDate: "2025-07-31",
-      },
-    ],
-    verificationNote:
-      "以 Vercel 官方部落格為準；文章標明日期並說明 AI SDK 5 對 TypeScript、聊天 UI 與 agent loop 的更新。",
-    keyPoints: [
-      "前端關聯最高，直接影響 React/Vue/Svelte/Angular AI 應用開發。",
-      "適合和模型發布區分：這是應用層 SDK，而不是模型本身。",
-      "可作為後續本站若加入 AI 搜尋或摘要功能的技術候選。",
-    ],
-  },
-] satisfies Article[];
+export const coverageBucketLabels: Record<CoverageBucket, string> = {
+  "ai-tech-tools": "AI 科技與工具",
+  "software-frontend-engineering": "軟體與前端工程",
+  "ai-issue": "AI 議題",
+};
 
-export const featuredArticle = articles[0];
-export const recentArticles = articles.slice(0, 4);
-export const frontendArticles = articles.filter(
-  (article) => article.frontendRelevance === "高",
+export const sourceTypeLabels: Record<SourceType, string> = {
+  official: "官方來源",
+  primary: "一手來源",
+  secondary: "補充來源",
+};
+
+export const weeklyCoverageRules = {
+  targetArticleCount: "8-10",
+  updateDay: "Sunday",
+  timeWindowDays: 7,
+  targets: [
+    "約 50%：AI 科技發展與 AI 工具，例如 ChatGPT、Codex、Claude、Gemini、Grok。",
+    "至少 45%：與軟體工程、前端工程、開發工具、框架、SDK、IDE、CI/CD、agentic coding 相關。",
+    "至少 2%：泛 AI 議題，例如安全、政策、產業、研究，但不得稀釋主題。",
+  ],
+} as const;
+
+export const articles: Article[] = [
+  {
+    slug: "openai-codex-safety-2026-05-08",
+    title: "OpenAI 說明 Codex 在內部工作流程中的安全治理",
+    summary:
+      "OpenAI 發布「Running Codex safely at OpenAI」，說明其在真實工作流程中部署 Codex 時使用的邊界、網路政策、審批與遙測做法。",
+    category: "AI 模型與平台",
+    eventDate: "2026-05-08",
+    publishedDate: "2026-05-08",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "高",
+    coverageBuckets: ["ai-tech-tools", "software-frontend-engineering", "ai-issue"],
+    comparisonTargets: ["Codex", "AI coding agents", "developer security"],
+    sources: [
+      {
+        name: "OpenAI News",
+        url: "https://openai.com/index/running-codex-safely/",
+        publishedDate: "2026-05-08",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the OpenAI article on 2026-05-10. The source supports the publication date, Codex safety controls, sandbox, network policy, approvals, and telemetry framing.",
+    keyPoints: [
+      "Codex 被放在明確技術邊界內執行，低風險工作可加速，高風險操作需要更明確的審批。",
+      "OpenAI 說明了 sandbox、網路存取政策與命令風險分級，重點是避免 coding agent 擁有無限制權限。",
+      "文章把 agent-native telemetry 視為治理基礎，方便安全團隊理解與稽核代理實際做過的事。",
+    ],
+  },
+  {
+    slug: "openai-gpt55-cyber-trusted-access-2026-05-07",
+    title: "OpenAI 推出 GPT-5.5-Cyber 並擴大 Trusted Access for Cyber",
+    summary:
+      "OpenAI 說明 GPT-5.5、GPT-5.5 with TAC 與 GPT-5.5-Cyber 在防禦型資安工作中的定位，並將 GPT-5.5-Cyber 以 limited preview 提供給特定防禦者。",
+    category: "AI 模型與平台",
+    eventDate: "2026-05-07",
+    publishedDate: "2026-05-07",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "中",
+    coverageBuckets: ["ai-tech-tools", "ai-issue"],
+    comparisonTargets: ["GPT-5.5", "GPT-5.5-Cyber", "Trusted Access for Cyber"],
+    sources: [
+      {
+        name: "OpenAI News",
+        url: "https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber/",
+        publishedDate: "2026-05-07",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the OpenAI article on 2026-05-10. The source supports the access levels, limited preview framing, defensive use cases, and account security requirements.",
+    keyPoints: [
+      "Trusted Access for Cyber 是以身份與信任為基礎的存取框架，用於讓已驗證防禦者進行授權資安工作。",
+      "GPT-5.5-Cyber 主打更寬鬆的專門資安工作流程，但搭配更強的驗證、監控與使用範圍限制。",
+      "OpenAI 仍把 GPT-5.5 with TAC 描述為多數防禦工作流程的建議起點。",
+    ],
+  },
+  {
+    slug: "openai-voice-api-models-2026-05-07",
+    title: "OpenAI 在 API 發布新一代即時語音模型",
+    summary:
+      "OpenAI 發布 GPT-Realtime-2、GPT-Realtime-Translate 與 GPT-Realtime-Whisper，讓開發者建立可推理、翻譯與低延遲轉錄的語音應用。",
+    category: "產品發布",
+    eventDate: "2026-05-07",
+    publishedDate: "2026-05-07",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "高",
+    coverageBuckets: ["ai-tech-tools", "software-frontend-engineering"],
+    comparisonTargets: ["OpenAI API", "Realtime API", "voice models"],
+    sources: [
+      {
+        name: "OpenAI News",
+        url: "https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/",
+        publishedDate: "2026-05-07",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the OpenAI article on 2026-05-10. The source supports the model names, API availability, pricing section, and developer use cases.",
+    keyPoints: [
+      "GPT-Realtime-2 是 OpenAI 描述的第一個具 GPT-5 級推理能力的語音模型。",
+      "Realtime API 新增翻譯與轉錄模型，面向即時多語音與低延遲語音產品。",
+      "這對前端與產品工程意味著語音 UI、客服、協作與無障礙體驗可以更直接接入即時模型。",
+    ],
+  },
+  {
+    slug: "openai-gpt55-instant-2026-05-05",
+    title: "OpenAI 將 ChatGPT 預設模型更新為 GPT-5.5 Instant",
+    summary:
+      "OpenAI 發布 GPT-5.5 Instant，強調更準確、更精簡與更個人化的日常回答，並逐步取代 GPT-5.3 Instant 作為 ChatGPT 預設模型。",
+    category: "產品發布",
+    eventDate: "2026-05-05",
+    publishedDate: "2026-05-05",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "中",
+    coverageBuckets: ["ai-tech-tools"],
+    comparisonTargets: ["GPT-5.5 Instant", "ChatGPT", "OpenAI models"],
+    sources: [
+      {
+        name: "OpenAI News",
+        url: "https://openai.com/index/gpt-5-5-instant/",
+        publishedDate: "2026-05-05",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the OpenAI article on 2026-05-10. The source supports the release date, default-model update, personalization controls, and availability notes.",
+    keyPoints: [
+      "GPT-5.5 Instant 被描述為 ChatGPT 的新預設模型，目標是讓日常回答更準確、清楚且少冗長。",
+      "OpenAI 指出 Instant 會更善用過去對話、檔案與已連接 Gmail 等個人化來源，但仍提供控制與刪改方式。",
+      "API 中對應為 chat-latest；付費使用者可在三個月內繼續使用 GPT-5.3 Instant。",
+    ],
+  },
+  {
+    slug: "anthropic-claude-limits-spacex-2026-05-06",
+    title: "Anthropic 提高 Claude 使用額度並公布 SpaceX compute deal",
+    summary:
+      "Anthropic 宣布與 SpaceX 的 compute partnership，並同步提高 Claude Code、Claude API 與 Claude Opus 模型相關使用額度。",
+    category: "公司與產業動態",
+    eventDate: "2026-05-06",
+    publishedDate: "2026-05-06",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "中",
+    coverageBuckets: ["ai-tech-tools", "ai-issue"],
+    comparisonTargets: ["Claude", "Claude Code", "SpaceX"],
+    sources: [
+      {
+        name: "Anthropic News",
+        url: "https://www.anthropic.com/news/higher-limits-spacex",
+        publishedDate: "2026-05-06",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the Anthropic article on 2026-05-10. The source supports the usage-limit changes, SpaceX partnership, and compute-capacity claims.",
+    keyPoints: [
+      "Claude Code 的五小時 rate limits 對 Pro、Max、Team 與 seat-based Enterprise plans 加倍。",
+      "Anthropic 表示 SpaceX partnership 將提供 Colossus 1 data center 的運算容量。",
+      "對開發者而言，Claude Code 與 API 額度提高會直接影響長時間 coding agent 與自動化工作流的可用性。",
+    ],
+  },
+  {
+    slug: "anthropic-agents-financial-services-2026-05-05",
+    title: "Anthropic 發布金融服務用 agent templates",
+    summary:
+      "Anthropic 發布十個 ready-to-run financial services agent templates，涵蓋 pitchbook、KYC file screening 與 month-end close 等工作。",
+    category: "AI 模型與平台",
+    eventDate: "2026-05-05",
+    publishedDate: "2026-05-05",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "中",
+    coverageBuckets: ["ai-tech-tools", "ai-issue"],
+    comparisonTargets: ["Claude", "AI agents", "financial services"],
+    sources: [
+      {
+        name: "Anthropic News",
+        url: "https://www.anthropic.com/news/finance-agents",
+        publishedDate: "2026-05-05",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the Anthropic article on 2026-05-10. The source supports the template count, financial-services scope, Claude Opus 4.7 reference, and partner framing.",
+    keyPoints: [
+      "Anthropic 將 agent 具體包裝為金融服務場景模板，而不是只描述通用模型能力。",
+      "這批模板鎖定金融分析、KYC、pitchbook 與結帳等重複且高精度任務。",
+      "對工程團隊的重點是：垂直領域 agent 需要資料、工具、權限與審核流程一起設計。",
+    ],
+  },
+  {
+    slug: "anthropic-enterprise-ai-services-company-2026-05-04",
+    title: "Anthropic 與 Blackstone 等夥伴成立 enterprise AI services company",
+    summary:
+      "Anthropic、Blackstone、Hellman & Friedman 與 Goldman Sachs 宣布成立新的 AI services company，目標是協助中型企業把 Claude 用進核心營運。",
+    category: "公司與產業動態",
+    eventDate: "2026-05-04",
+    publishedDate: "2026-05-04",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "低",
+    coverageBuckets: ["ai-issue"],
+    comparisonTargets: ["Anthropic", "enterprise AI", "AI services"],
+    sources: [
+      {
+        name: "Anthropic News",
+        url: "https://www.anthropic.com/news/enterprise-ai-services-company",
+        publishedDate: "2026-05-04",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the Anthropic article on 2026-05-10. The source supports the participating firms, target customers, and service-company positioning.",
+    keyPoints: [
+      "新公司定位是把 Claude 導入中型企業的重要營運流程。",
+      "Anthropic 表示其 applied AI engineers 會和新公司的工程團隊合作，識別高影響場景並建置客製方案。",
+      "這是企業 AI 導入從模型訂閱走向服務化、整合化的一個產業訊號。",
+    ],
+  },
+  {
+    slug: "github-copilot-review-comment-metrics-2026-05-08",
+    title: "GitHub Copilot code review comment types 進入 usage metrics API",
+    summary:
+      "GitHub Changelog 說明 Copilot usage metrics API 現在能依 comment type 統計 Copilot code review suggestions，協助企業理解自動 code review 活動。",
+    category: "前端與開發工具",
+    eventDate: "2026-05-08",
+    publishedDate: "2026-05-08",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "高",
+    coverageBuckets: ["software-frontend-engineering", "ai-tech-tools"],
+    comparisonTargets: ["GitHub Copilot", "code review", "usage metrics API"],
+    sources: [
+      {
+        name: "GitHub Changelog",
+        url: "https://github.blog/changelog/2026-05-08-copilot-code-review-comment-types-now-in-usage-metrics-api",
+        publishedDate: "2026-05-08",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the GitHub Changelog article on 2026-05-10. The source supports the API field name, release date, and enterprise/organization report scope.",
+    keyPoints: [
+      "新的 copilot_suggestions_by_comment_type array 位於 pull_requests 報告資料下。",
+      "API 會聚合 Copilot 依 comment type 分類的建議數與被開發者套用的建議數。",
+      "這讓工程管理者能把 AI code review 的使用情況拆到 security、bug risk 等類別觀察。",
+    ],
+  },
+  {
+    slug: "github-copilot-cloud-agent-secrets-variables-2026-05-08",
+    title: "GitHub 為 Copilot cloud agent 提供更彈性的 secrets 與 variables",
+    summary:
+      "GitHub 發布 Copilot cloud agent 專用的 Agents secrets and variables，支援組織層級設定與更清楚的 repository-level 管理。",
+    category: "前端與開發工具",
+    eventDate: "2026-05-08",
+    publishedDate: "2026-05-08",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "高",
+    coverageBuckets: ["software-frontend-engineering", "ai-tech-tools"],
+    comparisonTargets: ["GitHub Copilot", "Copilot cloud agent", "secrets"],
+    sources: [
+      {
+        name: "GitHub Changelog",
+        url: "https://github.blog/changelog/2026-05-08-more-flexible-secrets-and-variables-for-copilot-cloud-agent/",
+        publishedDate: "2026-05-08",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the GitHub Changelog article on 2026-05-10. The source supports the Agents secrets and variables feature, org-level sharing, and repository-level separation.",
+    keyPoints: [
+      "Copilot cloud agent 現在有獨立於 Actions、Codespaces、Dependabot 的 Agents secrets and variables。",
+      "組織可第一次在 org level 設定並選擇哪些 repositories 可存取。",
+      "這對大規模 agentic coding rollout 重要，因為 MCP server、private registry token 等共用設定不必逐 repo 重複配置。",
+    ],
+  },
+  {
+    slug: "github-copilot-vscode-april-2026-05-06",
+    title: "GitHub Copilot in Visual Studio Code 發布 April releases",
+    summary:
+      "GitHub Changelog 彙整 VS Code 中 Copilot v1.116 至 v1.119 的更新，包含語意搜尋、agent experience、BYOK、Integrated Browser 與遠端 CLI session。",
+    category: "前端與開發工具",
+    eventDate: "2026-05-06",
+    publishedDate: "2026-05-06",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "高",
+    coverageBuckets: ["software-frontend-engineering", "ai-tech-tools"],
+    comparisonTargets: ["GitHub Copilot", "Visual Studio Code", "AI coding"],
+    sources: [
+      {
+        name: "GitHub Changelog",
+        url: "https://github.blog/changelog/2026-05-06-github-copilot-in-visual-studio-code-april-releases/",
+        publishedDate: "2026-05-06",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the GitHub Changelog article on 2026-05-10. The source supports the covered release range and listed VS Code Copilot capabilities.",
+    keyPoints: [
+      "Copilot 在 VS Code 中新增跨 workspace 語意搜尋與跨 GitHub repos/orgs 的 grep-style search。",
+      "Agent experience 包含 chat diff、產生 custom agents/skills/instructions、BYOK、open terminal 存取與 Integrated Browser。",
+      "這篇與前端工程高度相關，因為 IDE 內 AI agent 的 context、debug 與瀏覽器驗證能力正在快速整合。",
+    ],
+  },
+  {
+    slug: "github-mcp-secret-scanning-ga-2026-05-05",
+    title: "GitHub MCP Server secret scanning 正式 GA",
+    summary:
+      "GitHub 宣布 GitHub MCP Server 中的 secret scanning generally available，讓 MCP-compatible AI coding agent 或 IDE 可在 commit 或 PR 前掃描暴露的 secrets。",
+    category: "前端與開發工具",
+    eventDate: "2026-05-05",
+    publishedDate: "2026-05-05",
+    checkedAt: "2026-05-10",
+    weeklyIssueDate: "2026-05-10",
+    frontendRelevance: "高",
+    coverageBuckets: ["software-frontend-engineering", "ai-issue"],
+    comparisonTargets: ["GitHub MCP Server", "secret scanning", "supply chain security"],
+    sources: [
+      {
+        name: "GitHub Changelog",
+        url: "https://github.blog/changelog/2026-05-05-secret-scanning-with-github-mcp-server-is-now-generally-available/",
+        publishedDate: "2026-05-05",
+        sourceType: "official",
+      },
+    ],
+    verificationNote:
+      "Checked against the GitHub Changelog article on 2026-05-10. The source supports GA status, MCP-compatible agent/IDE usage, and push protection customization behavior.",
+    keyPoints: [
+      "Secret scanning tools in the MCP server now honor existing push protection customization。",
+      "GitHub 建議在 commit 或 PR 前要求 agent 掃描目前變更中的 exposed secrets。",
+      "這把 supply chain security 往 AI coding agent 的日常工作流前移，減少憑證進入 repo 的機會。",
+    ],
+  },
+];
+
+export const sortedArticles = [...articles].sort((a, b) => {
+  return b.publishedDate.localeCompare(a.publishedDate);
+});
+
+export const featuredArticle = sortedArticles[0];
+export const recentArticles = sortedArticles.slice(0, 4);
+export const frontendArticles = sortedArticles.filter((article) =>
+  article.coverageBuckets.includes("software-frontend-engineering"),
 );
 
 export const comparisons = [
   {
-    name: "GPT-5.1",
-    strength: "偏向通用 agentic coding、工具呼叫與快速迭代體驗。",
-    bestFor: "需要模型協助跨檔案修改、分析與前端生成的工作流。",
-    watch: "實際品質仍需依專案測試，不只看官方 benchmark。",
+    name: "OpenAI / Codex",
+    strength: "本週重點集中在 Codex 安全治理、GPT-5.5-Cyber 與即時語音 API。",
+    bestFor: "適合追蹤 ChatGPT、Codex、OpenAI API 與 AI app 開發者體驗的人。",
+    watch: "需要持續區分官方已發布能力、preview access 與只限特定可信任使用者的功能。",
   },
   {
-    name: "Gemini 2.5 Pro Preview",
-    strength: "官方明確凸顯互動式 Web App 與 coding 改善。",
-    bestFor: "探索 UI 生成、原型設計與多模態開發情境。",
-    watch: "Preview 版本可能有可用性或行為變動。",
+    name: "Anthropic / Claude",
+    strength: "本週重點是 Claude 使用額度、compute capacity 與垂直領域 agent templates。",
+    bestFor: "適合追蹤 Claude Code、企業 AI 導入與金融服務 agent 的團隊。",
+    watch: "compute deal 與服務公司屬於產業與營運面訊號，不能直接推論模型能力提升幅度。",
   },
   {
-    name: "Claude 4",
-    strength: "強調長時間、多步驟任務與 agent workflow。",
-    bestFor: "大型重構、程式理解、長上下文工程任務。",
-    watch: "前端生成只是整體 coding 能力的一部分，需另做 UI 實測。",
+    name: "GitHub Copilot",
+    strength: "本週重點是 Copilot metrics、cloud agent 設定、VS Code agent experience 與 MCP 安全掃描。",
+    bestFor: "適合追蹤 IDE、CI/CD、agentic coding、開發者安全與工程管理指標的人。",
+    watch: "Changelog 項目通常精簡，落地前仍需查 GitHub Docs 與組織政策設定。",
   },
 ] as const;
 

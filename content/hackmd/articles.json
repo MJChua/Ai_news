@@ -1,0 +1,82 @@
+{
+  "indexNoteId": "rpNyd3RtTPOPzZ4fmk1KvQ",
+  "articles": [
+    {
+      "slug": "openai-codex-safety-2026-05-08",
+      "title": "OpenAI 說明 Codex 在內部工作流程中的安全治理",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "xTALpmGySueNHKEuk9B0Cw",
+      "status": "synced"
+    },
+    {
+      "slug": "openai-gpt55-cyber-trusted-access-2026-05-07",
+      "title": "OpenAI 推出 GPT-5.5-Cyber 並擴大 Trusted Access for Cyber",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "GmXSFwiJSQ6KdtxbBovCYA",
+      "status": "synced"
+    },
+    {
+      "slug": "openai-voice-api-models-2026-05-07",
+      "title": "OpenAI 在 API 發布新一代即時語音模型",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "x1vcVxDPQZWiTS4SrTuA9A",
+      "status": "synced"
+    },
+    {
+      "slug": "openai-gpt55-instant-2026-05-05",
+      "title": "OpenAI 將 ChatGPT 預設模型更新為 GPT-5.5 Instant",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "RpmMNkGkRIar2akmjUJMEA",
+      "status": "synced"
+    },
+    {
+      "slug": "anthropic-claude-limits-spacex-2026-05-06",
+      "title": "Anthropic 提高 Claude 使用額度並公布 SpaceX compute deal",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "cGcdBVkITDKqj0xBmetzDQ",
+      "status": "synced"
+    },
+    {
+      "slug": "anthropic-agents-financial-services-2026-05-05",
+      "title": "Anthropic 發布金融服務用 agent templates",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "U05d3jktQBe5KLbGKgGvMA",
+      "status": "synced"
+    },
+    {
+      "slug": "anthropic-enterprise-ai-services-company-2026-05-04",
+      "title": "Anthropic 與 Blackstone 等夥伴成立 enterprise AI services company",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "9kODtEWaTpWnaGXK5N5TjQ",
+      "status": "synced"
+    },
+    {
+      "slug": "github-copilot-review-comment-metrics-2026-05-08",
+      "title": "GitHub Copilot code review comment types 進入 usage metrics API",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "i3eAZWngRgqNpg0_aU-V6w",
+      "status": "synced"
+    },
+    {
+      "slug": "github-copilot-cloud-agent-secrets-variables-2026-05-08",
+      "title": "GitHub 為 Copilot cloud agent 提供更彈性的 secrets 與 variables",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "-Sf2QkzuRs-Ds9ndSi6wQg",
+      "status": "synced"
+    },
+    {
+      "slug": "github-copilot-vscode-april-2026-05-06",
+      "title": "GitHub Copilot in Visual Studio Code 發布 April releases",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "Pxy5CbXrTIyT7MD0EJJsRA",
+      "status": "synced"
+    },
+    {
+      "slug": "github-mcp-secret-scanning-ga-2026-05-05",
+      "title": "GitHub MCP Server secret scanning 正式 GA",
+      "weeklyIssueDate": "2026-05-10",
+      "hackmdNoteId": "YxmxuQNgTrCeFsZEr_Nwgw",
+      "status": "synced"
+    }
+  ]
+}

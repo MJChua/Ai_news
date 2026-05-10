@@ -43,15 +43,21 @@ This project uses Next.js 16. APIs, conventions, and file structure may differ f
 - All article facts must include event date, published date, source name, source URL, and verification note.
 - Prefer official or primary sources for article data. If using media coverage, identify it as secondary coverage.
 - Do not add unverified AI news as confirmed content.
-- Keep article data in `lib/articles.ts` until the project adds an explicit CMS/database/content pipeline.
+- HackMD is the source of truth for article body Markdown.
+- Keep article metadata in `lib/articles.ts`; keep HackMD note mapping in `content/hackmd/articles.json`.
+- Do not copy third-party full articles into HackMD. Store original AI News Radar body text with source links and verification notes.
 - See `docs/ai/content-verification.md` before adding or editing article content.
+- Weekly news updates must follow `docs/ai/weekly-news-update.md`.
+- Weekly update branches must be created from `dev` and named `feature/renew_news_<english-summary>`.
+- Do not use guesses, simulated content, imagined facts, or unsupported summaries to fill the weekly article count.
 
 ## Engineering Rules
 
 - Keep changes small, reviewable, and scoped to the request.
 - Follow the existing stack: Next.js App Router, React, TypeScript, Tailwind CSS, npm.
-- Do not add a database, CMS, authentication, crawler, auto-scraper, or GitHub automation unless explicitly requested.
+- Do not add another database, CMS, authentication, crawler, auto-scraper, or GitHub automation unless explicitly requested.
 - Do not manually edit generated output such as `.next/`, `out/`, or build artifacts.
+- Do not commit real HackMD tokens. Use `HACKMD_API_TOKEN` from `.env.local` or CI secrets.
 - Run `npm run lint` and `npm run build` after implementation unless the change is documentation-only.
 - For UI changes, check desktop and mobile layout; avoid text overlap and unreadable contrast.
 
@@ -60,6 +66,7 @@ This project uses Next.js 16. APIs, conventions, and file structure may differ f
 - Follow `DEVELOPMENT.md` for branch policy.
 - `dev` is the daily integration branch.
 - Create `feature/<name>` or `bug/<name>` from `dev` for normal work.
+- Create `feature/renew_news_<english-summary>` from `dev` for weekly news updates.
 - `sit` receives weekly sprint integration from `dev`.
 - `production` is reserved until a dedicated domain and release process are ready.
 
