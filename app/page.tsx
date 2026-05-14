@@ -1,195 +1,341 @@
 import Link from "next/link";
-import {
-  articles,
-  coverageBucketLabels,
-  comparisons,
-  featuredArticle,
-  frontendArticles,
-  recentArticles,
-  sourceTypeLabels,
-  weeklyCoverageRules,
-  type Article,
-} from "@/lib/articles";
+import MobileShowMore from "./mobile-show-more";
+import SearchToast from "./search-toast";
+import { articles, type Article } from "@/lib/articles";
 
-export default function Home() {
+type HomeProps = {
+  searchParams?: Promise<{
+    q?: string | string[];
+    topic?: string | string[];
+  }>;
+};
+
+type TopicKey =
+  | "models"
+  | "tools"
+  | "ai-coding"
+  | "frontend"
+  | "companies"
+  | "security"
+  | "openai"
+  | "anthropic"
+  | "github-copilot"
+  | "agent";
+
+const featuredSlug = "openai-codex-safety-2026-05-08";
+const categoryArticleSlugs = [
+  "openai-voice-api-models-2026-05-07",
+  "github-copilot-vscode-april-2026-05-06",
+] as const;
+const recentNewsSlugs = [
+  "openai-gpt55-instant-2026-05-05",
+  "anthropic-agents-financial-services-2026-05-05",
+  "github-mcp-secret-scanning-ga-2026-05-05",
+] as const;
+
+const categoryLinks: { topic: TopicKey; label: string }[] = [
+  { topic: "models", label: "模型更新" },
+  { topic: "tools", label: "AI 工具" },
+  { topic: "ai-coding", label: "AI Coding" },
+  { topic: "frontend", label: "前端工程" },
+  { topic: "companies", label: "產業動態" },
+  { topic: "security", label: "AI 資安" },
+];
+
+const topicLabels = new Map<TopicKey, string>([
+  ["models", "模型更新"],
+  ["tools", "AI 工具"],
+  ["ai-coding", "AI Coding"],
+  ["frontend", "前端工程"],
+  ["companies", "產業動態"],
+  ["security", "AI 資安"],
+  ["openai", "OpenAI"],
+  ["anthropic", "Anthropic"],
+  ["github-copilot", "GitHub Copilot"],
+  ["agent", "Agent"],
+]);
+
+export default async function Home({ searchParams }: HomeProps) {
+  const params = (await searchParams) ?? {};
+  const query = readSearchParam(params.q);
+  const selectedTopic = readTopicParam(params.topic);
+  const featuredArticle = findArticle(featuredSlug);
+  const categoryArticles = categoryArticleSlugs.map(findArticle);
+  const recentNews = recentNewsSlugs.map(findArticle);
+  const archiveArticles = filterArticles(articles, query, selectedTopic);
+  const hasFilter = Boolean(query || selectedTopic);
+  const resultSummary = hasFilter
+    ? getSearchResultSummary(query, selectedTopic, archiveArticles.length)
+    : "";
+  const toastMessage = hasFilter ? getSearchToastMessage(archiveArticles.length) : "";
+
   return (
-    <main className="min-h-screen bg-[#090b10] text-slate-100">
-      <header className="border-b border-white/10 bg-[#0d1118]/95">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-6 sm:px-8 lg:px-10">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-300">
-                AI News Radar
-              </p>
-              <h1 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight text-white md:text-6xl">
-                每週 AI 最新資料，先查證再整理。
-              </h1>
-            </div>
-            <p className="max-w-xl text-sm leading-6 text-slate-300">
-              固定以官方與一手來源為主，追蹤 AI 工具、模型、軟體工程、前端工程與 AI 議題。每則資料保留日期、來源、查證時間與校對備註。
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2 text-sm text-slate-300">
-            {weeklyCoverageRules.targets.map((target) => (
-              <span className="rounded border border-white/10 px-3 py-2" key={target}>
-                {target}
-              </span>
-            ))}
-          </div>
-        </div>
+    <main className="home-page" id="top">
+      {toastMessage ? <SearchToast key={toastMessage} message={toastMessage} /> : null}
+
+      <header className="hero">
+        <p className="hero__brand">AI News Radar</p>
+
+        <h1>AI 最新資訊與趨勢</h1>
+
+        <p className="hero__description">
+          包含 AI 模型、AI 工具、AI Coding、前端工程與產業動態。
+        </p>
+
+        <form action="/#archive" className="site-search" method="get" role="search">
+          <label htmlFor="site-search">搜尋文章</label>
+          <input
+            defaultValue={query}
+            id="site-search"
+            name="q"
+            type="search"
+            placeholder="搜尋 OpenAI、Claude、GitHub Copilot、AI Coding..."
+          />
+          {selectedTopic ? (
+            <input name="topic" type="hidden" value={selectedTopic} />
+          ) : null}
+          <button type="submit">搜尋</button>
+        </form>
+
+        {resultSummary ? (
+          <p className="search-status" role="status">
+            {resultSummary}
+          </p>
+        ) : null}
       </header>
 
-      <div className="mx-auto grid max-w-7xl gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.35fr_0.65fr] lg:px-10">
-        <section className="grid gap-5">
-          <article className="border border-white/10 bg-[#111722] p-5 shadow-2xl shadow-black/30 sm:p-7">
-            <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.18em]">
-              <span className="bg-cyan-300 px-2 py-1 text-slate-950">最新焦點</span>
-              <span className="border border-white/10 px-2 py-1 text-slate-300">
-                {featuredArticle.category}
-              </span>
-            </div>
-            <h2 className="mt-5 text-3xl font-semibold leading-tight text-white md:text-5xl">
-              {featuredArticle.title}
-            </h2>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
-              {featuredArticle.summary}
-            </p>
-            <div className="mt-6 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
-              <Info label="發布日期" value={featuredArticle.publishedDate} />
-              <Info label="查證日期" value={featuredArticle.checkedAt} />
-              <Info label="前端關聯" value={featuredArticle.frontendRelevance} />
-            </div>
-            <Link
-              className="mt-7 inline-flex items-center border border-cyan-300 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300 hover:text-slate-950"
-              href={`/articles/${featuredArticle.slug}`}
-            >
-              閱讀來源與校對
-            </Link>
-          </article>
-
-          <section id="frontend" className="grid gap-4">
-            <SectionTitle eyebrow="Engineering Signal" title="軟體與前端工程相關" />
-            <div className="grid gap-4 md:grid-cols-2">
-              {frontendArticles.slice(0, 4).map((article) => (
-                <ArticleCard article={article} key={article.slug} />
-              ))}
-            </div>
-          </section>
-        </section>
-
-        <aside className="grid content-start gap-5">
-          <section className="border border-white/10 bg-[#10151f] p-5">
-            <SectionTitle eyebrow="Latest" title="近期 AI 動態" />
-            <div className="mt-5 grid gap-4">
-              {recentArticles.map((article) => (
-                <Link
-                  className="group grid gap-2 border-b border-white/10 pb-4 last:border-b-0 last:pb-0"
-                  href={`/articles/${article.slug}`}
-                  key={article.slug}
-                >
-                  <span className="text-xs text-slate-400">
-                    {article.publishedDate} / {article.category}
-                  </span>
-                  <span className="text-base font-semibold leading-6 text-white group-hover:text-cyan-200">
-                    {article.title}
-                  </span>
-                  <span className="text-sm leading-6 text-slate-400">
-                    {article.summary}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          <section className="border border-white/10 bg-[#17131f] p-5">
-            <SectionTitle eyebrow="Weekly Rule" title="週日更新規則" />
-            <ul className="mt-5 grid gap-3 text-sm leading-6 text-slate-300">
-              <li>每週日更新過去 7 天資料。</li>
-              <li>每週 8-10 則，來源以官方/一手為主。</li>
-              <li>禁止用猜測、模擬或想像內容補數量。</li>
-              <li>更新時需從 dev 開 feature/renew_news_... 分支。</li>
-            </ul>
-          </section>
-        </aside>
-      </div>
-
-      <section className="border-y border-white/10 bg-[#0d1118]" id="models">
-        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
-          <SectionTitle eyebrow="Comparison" title="本週觀察軸線" />
-          <div className="mt-5 grid gap-4 lg:grid-cols-3">
-            {comparisons.map((item) => (
-              <article className="border border-white/10 bg-[#111722] p-5" key={item.name}>
-                <h3 className="text-xl font-semibold text-white">{item.name}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-300">{item.strength}</p>
-                <div className="mt-5 grid gap-3 text-sm">
-                  <Info label="適合追蹤" value={item.bestFor} />
-                  <Info label="注意事項" value={item.watch} />
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10" id="archive">
-        <SectionTitle eyebrow="Archive" title="全部資料" />
-        <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article) => (
-            <ArticleCard article={article} key={article.slug} />
+      <nav className="category-nav" aria-label="文章分類">
+        <ul>
+          {categoryLinks.map((link) => (
+            <li key={link.topic}>
+              <Link
+                aria-current={selectedTopic === link.topic ? "page" : undefined}
+                href={getTopicHref(link.topic)}
+              >
+                {link.label}
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
+      </nav>
+
+      <section className="latest-articles" aria-labelledby="latest-articles-title">
+        <h2 id="latest-articles-title">最新文章</h2>
+
+        <MobileShowMore className="news-grid" limit={1}>
+          <NewsCard article={featuredArticle} isPrimary showSource />
+        </MobileShowMore>
       </section>
+
+      <section className="category-articles" aria-labelledby="category-articles-title">
+        <h2 id="category-articles-title">分類文章</h2>
+
+        <MobileShowMore className="news-grid" limit={2}>
+          {categoryArticles.map((article) => (
+            <NewsCard article={article} showSource key={article.slug} />
+          ))}
+        </MobileShowMore>
+      </section>
+
+      <section className="recent-news" aria-labelledby="recent-news-title">
+        <h2 id="recent-news-title">近期 AI 動態</h2>
+
+        <MobileShowMore as="ol" className="recent-news-list" limit={3}>
+          {recentNews.map((article) => (
+            <li key={article.slug}>
+              <article>
+                <Link href={`/articles/${article.slug}`}>
+                  <time dateTime={article.publishedDate}>{article.publishedDate}</time>
+                  <span>{article.title}</span>
+                </Link>
+              </article>
+            </li>
+          ))}
+        </MobileShowMore>
+      </section>
+
+      <section className="archive" aria-labelledby="archive-title" id="archive">
+        <div className="archive__header">
+          <div>
+            <h2 id="archive-title">{hasFilter ? "篩選結果" : "全部文章"}</h2>
+            {hasFilter ? (
+              <p>
+                {getFilterLabel(query, selectedTopic)}，共 {archiveArticles.length} 篇。
+              </p>
+            ) : null}
+          </div>
+          {hasFilter ? <Link href="/#archive">清除篩選</Link> : null}
+        </div>
+
+        {archiveArticles.length > 0 ? (
+          <MobileShowMore className="archive-grid" limit={3}>
+            {archiveArticles.map((article) => (
+              <NewsCard article={article} key={article.slug} />
+            ))}
+          </MobileShowMore>
+        ) : (
+          <p className="archive__empty">沒有符合條件的文章。</p>
+        )}
+      </section>
+
     </main>
   );
 }
 
-function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
-  return (
-    <div>
-      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-300">
-        {eyebrow}
-      </p>
-      <h2 className="mt-1 text-2xl font-semibold text-white">{title}</h2>
-    </div>
+function readSearchParam(value: string | string[] | undefined) {
+  if (Array.isArray(value)) {
+    return value[0]?.trim() ?? "";
+  }
+
+  return value?.trim() ?? "";
+}
+
+function readTopicParam(value: string | string[] | undefined) {
+  const topic = readSearchParam(value);
+
+  if (topicLabels.has(topic as TopicKey)) {
+    return topic as TopicKey;
+  }
+
+  return "";
+}
+
+function findArticle(slug: string) {
+  const article = articles.find((item) => item.slug === slug);
+
+  if (!article) {
+    throw new Error(`Missing homepage article: ${slug}`);
+  }
+
+  return article;
+}
+
+function filterArticles(articleList: Article[], query: string, topic: TopicKey | "") {
+  return articleList.filter((article) => {
+    const matchesQuery = query ? getSearchText(article).includes(normalize(query)) : true;
+    const matchesTopic = topic ? topicMatchesArticle(article, topic) : true;
+
+    return matchesQuery && matchesTopic;
+  });
+}
+
+function topicMatchesArticle(article: Article, topic: TopicKey) {
+  const searchText = getSearchText(article);
+
+  switch (topic) {
+    case "models":
+      return article.category === "AI 模型與平台";
+    case "tools":
+      return article.coverageBuckets.includes("ai-tech-tools") || article.category === "產品發布";
+    case "ai-coding":
+      return hasAny(searchText, ["ai coding", "codex", "copilot", "agentic coding"]);
+    case "frontend":
+      return (
+        article.coverageBuckets.includes("software-frontend-engineering") ||
+        article.category === "前端與開發工具"
+      );
+    case "companies":
+      return article.category === "公司與產業動態";
+    case "security":
+      return hasAny(searchText, ["資安", "安全", "security", "secret", "cyber", "safety"]);
+    case "openai":
+      return hasAny(searchText, ["openai", "chatgpt", "codex", "gpt"]);
+    case "anthropic":
+      return hasAny(searchText, ["anthropic", "claude"]);
+    case "github-copilot":
+      return hasAny(searchText, ["github copilot", "copilot"]);
+    case "agent":
+      return hasAny(searchText, ["agent", "agents", "agentic"]);
+  }
+}
+
+function hasAny(text: string, needles: string[]) {
+  return needles.some((needle) => text.includes(normalize(needle)));
+}
+
+function getSearchText(article: Article) {
+  return normalize(
+    [
+      article.title,
+      article.summary,
+      article.category,
+      article.frontendRelevance,
+      ...article.comparisonTargets,
+      ...article.coverageBuckets,
+      ...article.keyPoints,
+      ...article.sources.map((source) => source.name),
+    ].join(" "),
   );
 }
 
-function Info({ label, value }: { label: string; value: string }) {
+function normalize(value: string) {
+  return value.toLocaleLowerCase("en-US").trim();
+}
+
+function getTopicHref(topic: TopicKey) {
+  return `/?topic=${encodeURIComponent(topic)}#archive`;
+}
+
+function getFilterLabel(query: string, topic: TopicKey | "") {
+  const parts = [];
+
+  if (query) {
+    parts.push(`搜尋「${query}」`);
+  }
+
+  if (topic) {
+    parts.push(`主題「${topicLabels.get(topic)}」`);
+  }
+
+  return parts.join("、");
+}
+
+function getSearchResultSummary(query: string, topic: TopicKey | "", resultCount: number) {
+  const filterLabel = getFilterLabel(query, topic);
+
+  if (resultCount === 0) {
+    return `沒有符合條件的文章：${filterLabel}。`;
+  }
+
+  return `已套用搜尋：${filterLabel}，共 ${resultCount} 篇結果。`;
+}
+
+function getSearchToastMessage(resultCount: number) {
+  if (resultCount === 0) {
+    return "沒有符合條件的文章";
+  }
+
+  return `已套用搜尋，找到 ${resultCount} 篇文章`;
+}
+
+function NewsCard({
+  article,
+  isPrimary = false,
+  showSource = false,
+}: {
+  article: Article;
+  isPrimary?: boolean;
+  showSource?: boolean;
+}) {
   return (
-    <p className="grid gap-1">
-      <span className="text-xs uppercase tracking-[0.18em] text-slate-500">{label}</span>
-      <span className="text-slate-200">{value}</span>
-    </p>
+    <article className={isPrimary ? "news-card news-card--primary" : "news-card"}>
+      <Link href={`/articles/${article.slug}`}>
+        <p className="news-card__meta">{getArticleMeta(article, showSource)}</p>
+
+        <h3>{article.title}</h3>
+
+        <p>{article.summary}</p>
+      </Link>
+    </article>
   );
 }
 
-function ArticleCard({ article }: { article: Article }) {
-  return (
-    <Link
-      className="group grid min-h-72 content-between border border-white/10 bg-[#10151f] p-5 transition hover:border-cyan-300 hover:bg-[#121b29]"
-      href={`/articles/${article.slug}`}
-    >
-      <div>
-        <div className="flex flex-wrap gap-2 text-xs">
-          <span className="border border-white/10 px-2 py-1 text-slate-300">
-            {article.category}
-          </span>
-          <span className="bg-[#3b2f16] px-2 py-1 text-amber-100">
-            前端關聯：{article.frontendRelevance}
-          </span>
-        </div>
-        <h3 className="mt-4 text-xl font-semibold leading-7 text-white group-hover:text-cyan-200">
-          {article.title}
-        </h3>
-        <p className="mt-3 text-sm leading-6 text-slate-400">{article.summary}</p>
-      </div>
-      <div className="mt-5 grid gap-2 text-xs text-slate-500">
-        <p>
-          {article.publishedDate} / {article.sources[0].name} /{" "}
-          {sourceTypeLabels[article.sources[0].sourceType]}
-        </p>
-        <p>{article.coverageBuckets.map((bucket) => coverageBucketLabels[bucket]).join(" / ")}</p>
-      </div>
-    </Link>
-  );
+function getArticleMeta(article: Article, showSource: boolean) {
+  const sourceName = article.sources[0]?.name ?? "Unknown";
+
+  if (showSource) {
+    return `${article.category}・${sourceName}・${article.publishedDate}`;
+  }
+
+  return `${article.category}・${article.publishedDate}`;
 }
