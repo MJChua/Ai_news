@@ -23,6 +23,7 @@ npm run build
 ## Development Workflow
 
 Branching and sprint rules are documented in [DEVELOPMENT.md](./DEVELOPMENT.md).
+Deployment and custom domain rules are documented in [docs/deployment.md](./docs/deployment.md).
 
 Current branch policy:
 
@@ -30,7 +31,7 @@ Current branch policy:
 - `dev`: daily integration branch.
 - `feature/<name>` and `bug/<name>`: created from `dev`.
 - `sit`: weekly sprint integration branch.
-- `production`: reserved until a dedicated domain and release flow are ready.
+- `production`: Vercel Production Branch for validated releases.
 
 ## AI And Engineering Guidance
 
