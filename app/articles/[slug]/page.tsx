@@ -3,14 +3,45 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   articles,
-  coverageBucketLabels,
   getArticle,
-  sourceTypeLabels,
+  type Article,
+  type ArticleCategory,
 } from "@/lib/articles";
 import { getHackmdArticleBody } from "@/lib/hackmd-content";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
+};
+
+type HackmdArticleBody = ReturnType<typeof getHackmdArticleBody>;
+
+const topicHrefByCategory: Partial<Record<ArticleCategory, string>> = {
+  "AI 模型與平台": "/?topic=models#archive",
+  產品發布: "/?topic=tools#archive",
+  前端與開發工具: "/?topic=frontend#archive",
+  公司與產業動態: "/?topic=companies#archive",
+};
+
+const mentionedItemsBySlug: Record<string, string[]> = {
+  "openai-codex-safety-2026-05-08": [
+    "Codex",
+    "執行邊界",
+    "網路政策",
+    "審批",
+    "遙測",
+  ],
+};
+
+const sourceLabelsBySlug: Record<string, string> = {
+  "openai-codex-safety-2026-05-08":
+    "OpenAI News：Running Codex safely at OpenAI",
+};
+
+const relatedArticleSlugsBySlug: Record<string, string[]> = {
+  "openai-codex-safety-2026-05-08": [
+    "github-copilot-vscode-april-2026-05-06",
+    "github-copilot-cloud-agent-secrets-variables-2026-05-08",
+  ],
 };
 
 export function generateStaticParams() {
@@ -46,142 +77,138 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
+  const primarySource = article.sources[0];
+  const relatedArticles = getRelatedArticles(article);
+
   return (
-    <main className="min-h-screen bg-[#090b10] text-slate-100">
-      <article className="mx-auto grid max-w-4xl gap-8 px-5 py-8 sm:px-8 lg:px-10">
-        <Link className="text-sm text-cyan-200 hover:text-white" href="/">
+    <main className="article-page">
+      <article className="article">
+        <Link className="back-link" href="/">
           返回首頁
         </Link>
 
-        <header className="border border-white/10 bg-[#111722] p-5 sm:p-7">
-          <div className="flex flex-wrap gap-2 text-xs">
-            <span className="bg-cyan-300 px-2 py-1 font-semibold text-slate-950">
-              {article.category}
-            </span>
-            <span className="border border-white/10 px-2 py-1 text-slate-300">
-              前端關聯：{article.frontendRelevance}
-            </span>
-          </div>
-          <h1 className="mt-5 text-3xl font-semibold leading-tight text-white md:text-5xl">
-            {article.title}
-          </h1>
-          <p className="mt-5 text-base leading-7 text-slate-300">{article.summary}</p>
+        <header className="article-header">
+          <nav className="breadcrumb" aria-label="文章分類">
+            <Link href="/">首頁</Link>
+            <span>/</span>
+            <Link href={getCategoryHref(article.category)}>{article.category}</Link>
+          </nav>
+
+          <h1>{article.title}</h1>
+
+          <p className="article-meta">
+            <span>Date: {article.publishedDate}</span>
+            <span>Source: {primarySource?.name ?? "Unknown"}</span>
+            <span>Category: {article.category}</span>
+          </p>
+
+          <p className="article-dek">{article.summary}</p>
         </header>
 
-        <section className="grid gap-4 border border-white/10 bg-[#10151f] p-5 sm:grid-cols-2">
-          <Detail label="事件日期" value={article.eventDate} />
-          <Detail label="發布日期" value={article.publishedDate} />
-          <Detail label="查證日期" value={article.checkedAt} />
-          <Detail label="週期日期" value={article.weeklyIssueDate} />
-          <Detail label="分類" value={article.category} />
-          <Detail
-            label="涵蓋範圍"
-            value={article.coverageBuckets
-              .map((bucket) => coverageBucketLabels[bucket])
-              .join(" / ")}
-          />
-          <Detail label="比較對象" value={article.comparisonTargets.join(" / ")} />
+        <section className="article-body" aria-labelledby="article-body-title">
+          <h2 id="article-body-title">詳細內容</h2>
+
+          <section>
+            <h3>發布內容</h3>
+            <p>{getPublicationContent(article, hackmdBody)}</p>
+          </section>
+
+          <section>
+            <h3>提及項目</h3>
+            <ul>
+              {getMentionedItems(article).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
         </section>
 
-        <section className="border border-white/10 bg-[#10151f] p-5">
-          <h2 className="text-2xl font-semibold text-white">正文</h2>
-          {hackmdBody ? (
-            <MarkdownBody markdown={hackmdBody.markdown} />
-          ) : (
-            <p className="mt-4 text-sm leading-6 text-slate-300">
-              HackMD 正文尚未同步。請設定 `HACKMD_API_TOKEN` 後執行{" "}
-              <code className="rounded bg-black/30 px-1 py-0.5 text-cyan-100">
-                npm run hackmd:pull
-              </code>
-              。
-            </p>
-          )}
-        </section>
+        <section className="article-source" aria-labelledby="source-title">
+          <h2 id="source-title">來源</h2>
 
-        <section className="border border-white/10 bg-[#10151f] p-5">
-          <h2 className="text-2xl font-semibold text-white">重點摘要</h2>
-          <ul className="mt-5 grid gap-3 text-sm leading-6 text-slate-300">
-            {article.keyPoints.map((point) => (
-              <li className="border-l-2 border-cyan-300 pl-3" key={point}>
-                {point}
+          <ul>
+            {article.sources.map((source) => (
+              <li key={`${source.name}-${source.url}`}>
+                <a href={source.url} rel="noreferrer" target="_blank">
+                  {getSourceLabel(article, source.name)}
+                </a>
               </li>
             ))}
           </ul>
         </section>
 
-        <section className="border border-white/10 bg-[#17131f] p-5">
-          <h2 className="text-2xl font-semibold text-white">來源與校對</h2>
-          <p className="mt-4 text-sm leading-6 text-slate-300">
-            {article.verificationNote}
-          </p>
-          <div className="mt-5 grid gap-3">
-            {article.sources.map((source) => (
-              <a
-                className="border border-white/10 p-4 text-sm text-cyan-100 transition hover:border-cyan-300"
-                href={source.url}
-                key={`${source.name}-${source.publishedDate}`}
-                rel="noreferrer"
-                target="_blank"
-              >
-                {source.name} / {source.publishedDate} /{" "}
-                {sourceTypeLabels[source.sourceType]}
-              </a>
-            ))}
-          </div>
-        </section>
+        <footer className="article-footer">
+          <section className="related-articles" aria-labelledby="related-title">
+            <h2 id="related-title">相關文章</h2>
+
+            <ul>
+              {relatedArticles.map((relatedArticle) => (
+                <li key={relatedArticle.slug}>
+                  <Link href={`/articles/${relatedArticle.slug}`}>
+                    {relatedArticle.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </footer>
       </article>
     </main>
   );
 }
 
-function Detail({ label, value }: { label: string; value: string }) {
-  return (
-    <p className="grid gap-1">
-      <span className="text-xs uppercase tracking-[0.18em] text-slate-500">{label}</span>
-      <span className="text-slate-200">{value}</span>
-    </p>
-  );
+function getCategoryHref(category: ArticleCategory) {
+  return topicHrefByCategory[category] ?? "/";
 }
 
-function MarkdownBody({ markdown }: { markdown: string }) {
-  const lines = markdown
+function getPublicationContent(article: Article, hackmdBody: HackmdArticleBody) {
+  const fallback = article.summary;
+
+  if (!hackmdBody) {
+    return fallback;
+  }
+
+  const firstParagraph = hackmdBody.markdown
     .split(/\r?\n/)
     .map((line) => line.trim())
-    .filter(Boolean);
+    .find((line) => {
+      return (
+        line &&
+        !line.startsWith("#") &&
+        !line.startsWith("- ") &&
+        !line.startsWith("Checked against")
+      );
+    });
 
-  return (
-    <div className="mt-5 grid gap-4 text-sm leading-7 text-slate-300">
-      {lines.map((line, index) => {
-        if (line.startsWith("# ")) {
-          return null;
-        }
+  return firstParagraph ?? fallback;
+}
 
-        if (line.startsWith("## ")) {
-          return (
-            <h3 className="mt-2 text-xl font-semibold text-white" key={`${line}-${index}`}>
-              {line.replace(/^##\s+/, "")}
-            </h3>
-          );
-        }
+function getMentionedItems(article: Article) {
+  return mentionedItemsBySlug[article.slug] ?? article.comparisonTargets;
+}
 
-        if (line.startsWith("### ")) {
-          return (
-            <h4 className="text-base font-semibold text-cyan-100" key={`${line}-${index}`}>
-              {line.replace(/^###\s+/, "")}
-            </h4>
-          );
-        }
+function getSourceLabel(article: Article, sourceName: string) {
+  return sourceLabelsBySlug[article.slug] ?? `${sourceName}：${article.title}`;
+}
 
-        if (line.startsWith("- ")) {
-          return (
-            <p className="border-l border-cyan-300 pl-3" key={`${line}-${index}`}>
-              {line.replace(/^-\s+/, "")}
-            </p>
-          );
-        }
+function getRelatedArticles(article: Article) {
+  const explicitRelatedArticles = relatedArticleSlugsBySlug[article.slug]
+    ?.map((slug) => getArticle(slug))
+    .filter((item): item is Article => Boolean(item));
 
-        return <p key={`${line}-${index}`}>{line}</p>;
-      })}
-    </div>
-  );
+  if (explicitRelatedArticles?.length) {
+    return explicitRelatedArticles;
+  }
+
+  return articles
+    .filter((candidate) => {
+      if (candidate.slug === article.slug) {
+        return false;
+      }
+
+      return candidate.coverageBuckets.some((bucket) =>
+        article.coverageBuckets.includes(bucket),
+      );
+    })
+    .slice(0, 2);
 }
