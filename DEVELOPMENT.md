@@ -41,10 +41,12 @@ npm run build
 
 ## Production Rules
 
-- `production` exists only as a placeholder until a real release setup exists.
+- `production` is the Vercel Production Branch.
 - Do not auto-merge into `production`.
-- Only merge into `production` after domain, deployment, release validation, and rollback rules are documented.
-- Production promotion must pass lint, build, and manual UI smoke checks.
+- Only merge into `production` after the release candidate has passed `npm run hackmd:check`, `npm run lint`, `npm run build`, and a Vercel Preview smoke check.
+- The public custom domain must point only to the Vercel Production Deployment, not to Preview Deployments.
+- Production rollback must use the Vercel Dashboard rollback flow or `vercel rollback`, then verify the custom domain, homepage, and article detail route.
+- Deployment details are documented in `docs/deployment.md`.
 
 ## Required Checks
 
