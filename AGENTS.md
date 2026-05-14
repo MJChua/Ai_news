@@ -38,6 +38,16 @@ This project uses Next.js 16. APIs, conventions, and file structure may differ f
 - `docs/ai/`: AI and engineering guidance.
 - `.github/workflows/weekly-sit-merge.yml`: weekly `dev` to `sit` merge automation.
 
+## Working Index
+
+- Package manager: npm. This repo has `package-lock.json`; do not switch package managers unless explicitly requested.
+- Core scripts: `npm run dev`, `npm run lint`, `npm run build`, `npm run hackmd:push`, `npm run hackmd:pull`, `npm run hackmd:check`.
+- Stack versions are declared in `package.json`: Next.js 16, React 19, TypeScript, Tailwind CSS 4, ESLint 9.
+- Next.js API behavior must be checked against local docs under `node_modules/next/dist/docs/` before editing Next-specific code.
+- Article page body text is read from `data/generated/hackmd-articles.json` through `lib/hackmd-content.ts`; that generated cache comes from HackMD pull, not direct manual editing.
+- HackMD API configuration uses `HACKMD_API_TOKEN` and optional `HACKMD_INDEX_NOTE_ID`; keep real values in `.env.local` or CI secrets only.
+- For content work, verify `lib/articles.ts`, `content/hackmd/articles.json`, and `data/generated/hackmd-articles.json` stay consistent.
+
 ## Content Rules
 
 - All article facts must include event date, published date, source name, source URL, and verification note.
