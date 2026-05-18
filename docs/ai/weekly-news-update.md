@@ -1,29 +1,34 @@
 # Weekly News Update Procedure
 
-Use this procedure every Sunday when updating the latest AI news.
+This project publishes the weekly AI news batch automatically every Monday at 09:00 Asia/Taipei.
 
-## Branch Rule
+GitHub Actions schedules use UTC, so `.github/workflows/weekly-news-production.yml` runs at `0 1 * * 1`. GitHub Actions may queue jobs for a few minutes; the schedule is the trigger time, not a hard real-time SLA.
 
-1. Start from `dev`.
-2. Confirm the worktree is clean.
-3. Create a branch named:
+## Automated Production Flow
 
-```txt
-feature/renew_news_<english-summary>
-```
+1. Start from `origin/dev`.
+2. Create a staging branch named `feature/renew_news_auto_<yyyymmdd>`.
+3. Collect official or primary source candidates from `data/weekly-news-sources.json`.
+4. Use OpenAI Responses API structured output to generate AI News Radar original article metadata and body Markdown.
+5. Require at least `MIN_WEEKLY_NEWS_ITEMS` verified items. The default is `5`.
+6. Write article metadata to `data/articles.json`.
+7. Stage new HackMD mappings in `content/hackmd/articles.json`.
+8. Stage generated body Markdown in `data/generated/hackmd-articles.json`.
+9. Run `npm run hackmd:push`, `npm run hackmd:pull`, and `npm run hackmd:check`.
+10. Run `npm run lint` and `npm run build`.
+11. Push the staging branch and wait for Vercel Preview.
+12. Smoke check the Preview homepage and latest article detail route.
+13. Push the validated commit to `dev` and `production`.
 
-Example:
-
-```txt
-feature/renew_news_ai_coding_tools_may_week2
-```
+If any step fails, the workflow must not push `dev` or `production`. It opens a GitHub issue for manual follow-up.
 
 ## Time Window
 
-- Default update day: Sunday.
+- Default update day: Monday.
 - Default timezone: Asia/Taipei.
-- Default content window: previous 7 days.
-- If a source was published outside the window, include it only when it is a correction or a directly relevant follow-up to the current week.
+- Content window: previous Monday 00:00 through Sunday 23:59:59.
+- `weeklyIssueDate` is the Sunday at the end of the content window.
+- If a source was published outside the window, include it only when a future explicit rule supports corrections or follow-ups. The current automation rejects out-of-window sources.
 
 ## Source Priority
 
@@ -31,21 +36,24 @@ Use sources in this order:
 
 1. Official company/project news, changelog, docs, or release notes.
 2. Primary project sources such as repository releases.
-3. Reputable secondary media only as supporting context.
 
-Do not use social rumors, unsupported forum posts, or AI-generated guesses as article facts.
+Do not use secondary media in the automated production workflow unless the source policy is deliberately expanded later.
+
+Do not use social rumors, unsupported forum posts, AI-generated guesses, or open-ended search results as article facts.
 
 ## Weekly Selection
 
-- Target 8-10 verified items.
+- Target 8-10 verified items when enough official or primary sources exist.
+- Minimum production threshold: 5 verified items.
 - Around 50% should cover AI technology and AI tools.
 - At least 45% should cover software engineering, frontend engineering, developer tools, SDKs, IDEs, CI/CD, or agentic coding.
-- At least 2% should cover broader AI issues such as safety, policy, research, security, or industry movement.
-- If the verified source pool is too small, publish fewer items and explain why.
+- At least one item should cover broader AI issues such as safety, policy, research, security, or industry movement when supported by official sources.
+
+If fewer than the minimum number of verified items exists, publish nothing and keep the previous production content.
 
 ## Data Entry Rules
 
-Each item in `lib/articles.ts` must include metadata:
+Each item in `data/articles.json` must include metadata:
 
 - `eventDate`
 - `publishedDate`
@@ -70,12 +78,11 @@ The `verificationNote` must state what the source supports and what was not infe
 
 ## HackMD Body Workflow
 
-1. Write AI News Radar original body text in HackMD.
-2. Do not copy third-party full articles.
-3. Keep each article as one HackMD note.
-4. Update the HackMD index note through `npm run hackmd:push`.
-5. Pull body Markdown with `npm run hackmd:pull`.
-6. Validate mapping and body sections with `npm run hackmd:check`.
+1. The automation writes AI News Radar original body text, not copied third-party full articles.
+2. Each article maps to one HackMD note.
+3. `npm run hackmd:push` creates or updates HackMD notes and the HackMD index note.
+4. `npm run hackmd:pull` refreshes `data/generated/hackmd-articles.json`.
+5. `npm run hackmd:check` validates manifest, generated body sections, dates, and sources.
 
 Expected note sections:
 
@@ -95,15 +102,12 @@ Expected note sections:
 ## 來源與校對
 ```
 
-## PR Requirements
+## Manual Modes
 
-The pull request into `dev` must include:
+Use `workflow_dispatch` on `weekly-news-production.yml`:
 
-- Date range.
-- Number of items.
-- Source list.
-- Coverage bucket summary.
-- Verification summary.
-- Excluded notable candidates and the reason they were excluded.
-- HackMD note list and index note id.
-- Confirmation that `npm run lint` and `npm run build` passed.
+- `dry-run`: collect candidates and run self-tests without writing files.
+- `staging-branch`: generate content, sync HackMD, validate, commit, and push only the staging branch.
+- `publish`: run the full production flow.
+
+Use `staging-branch` before `publish` when changing source policy, prompt behavior, or validation rules.

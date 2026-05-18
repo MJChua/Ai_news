@@ -1,10 +1,10 @@
 # Content Verification Rules
 
-This project publishes manually curated AI news and comparison notes. Accuracy matters more than completeness.
+This project publishes automatically generated and manually reviewable AI news and comparison notes. Accuracy matters more than completeness.
 
 ## Required Article Fields
 
-Each article in `lib/articles.ts` must include:
+Each article in `data/articles.json` must include:
 
 - `title`
 - `summary`
@@ -42,17 +42,18 @@ Supported `sourceType` values:
 - The HackMD index note maps `slug -> hackmdNoteId`.
 - `npm run hackmd:pull` writes the generated cache used by article pages.
 - `npm run hackmd:check` must fail if a note id, body section, source, or date is missing.
-- The generated cache is not the editorial source of truth; update HackMD first, then pull.
+- The generated cache is not the editorial source of truth; the weekly automation stages original Markdown, pushes it to HackMD, then pulls the committed cache.
 
 ## Source Rules
 
 - Prefer official or primary sources, such as company blogs, release notes, official docs, standards bodies, or source repositories.
-- If using media coverage, treat it as secondary and avoid presenting it as the primary fact source.
+- The automated production workflow may use only official or primary sources from `data/weekly-news-sources.json`.
+- If using media coverage in a manual update, treat it as secondary and avoid presenting it as the primary fact source.
 - Do not add claims that are not supported by the linked sources.
 - Do not infer benchmark rankings, product availability, pricing, or release scope unless the source explicitly supports it.
 - For recent AI news, verify the current date and publication date before adding content.
 - For weekly updates, use the previous 7 days from the Sunday update date.
-- If official or primary sources do not provide enough valid items, do not fill the list with unsupported content.
+- If official or primary sources do not provide enough valid items, do not fill the list with unsupported content. The automated production workflow must publish nothing when fewer than 5 items pass validation.
 
 ## Weekly Coverage Targets
 

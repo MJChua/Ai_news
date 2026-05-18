@@ -1,0 +1,171 @@
+name: Weekly production news update
+
+on:
+  schedule:
+    - cron: "0 1 * * 1"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode"
+        required: true
+        default: "dry-run"
+        type: choice
+        options:
+          - dry-run
+          - staging-branch
+          - publish
+      date:
+        description: "Optional Asia/Taipei reference date, YYYY-MM-DD"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: weekly-production-news
+  cancel-in-progress: false
+
+jobs:
+  weekly-news:
+    runs-on: ubuntu-latest
+    env:
+      AI_NEWS_MODEL: ${{ vars.AI_NEWS_MODEL || 'gpt-4o-mini' }}
+      HACKMD_API_TOKEN: ${{ secrets.HACKMD_API_TOKEN }}
+      MIN_WEEKLY_NEWS_ITEMS: ${{ vars.MIN_WEEKLY_NEWS_ITEMS || '5' }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - name: Resolve run mode
+        id: mode
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "value=publish" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=${{ inputs.mode }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dev
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Create weekly branch
+        id: branch
+        shell: bash
+        run: |
+          issue_date="$(TZ=Asia/Taipei date +'%Y%m%d')"
+          branch="feature/renew_news_auto_${issue_date}"
+          git checkout -B "$branch" origin/dev
+          echo "name=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Run weekly news self-test
+        run: npm run news:self-test
+
+      - name: Dry-run weekly news collection
+        if: steps.mode.outputs.value == 'dry-run'
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            npm run news:dry-run -- --date="${{ inputs.date }}"
+          else
+            npm run news:dry-run
+          fi
+
+      - name: Generate weekly news content
+        if: steps.mode.outputs.value != 'dry-run'
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            npm run news:update -- --date="${{ inputs.date }}"
+          else
+            npm run news:update
+          fi
+
+      - name: Sync HackMD notes
+        if: steps.mode.outputs.value != 'dry-run'
+        run: |
+          npm run hackmd:push
+          npm run hackmd:pull
+          npm run hackmd:check
+
+      - name: Validate app
+        if: steps.mode.outputs.value != 'dry-run'
+        run: |
+          npm run lint
+          npm run build
+
+      - name: Commit weekly news update
+        if: steps.mode.outputs.value != 'dry-run'
+        id: commit
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No weekly news changes were generated."
+            exit 1
+          fi
+          git add data/articles.json content/hackmd/articles.json data/generated/hackmd-articles.json
+          git commit -m "chore: automated weekly AI news update"
+          git push --force-with-lease origin HEAD:${{ steps.branch.outputs.name }}
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for Vercel Preview and smoke check
+        if: steps.mode.outputs.value == 'publish'
+        env:
+          PREVIEW_BRANCH: ${{ steps.branch.outputs.name }}
+          PREVIEW_COMMIT_SHA: ${{ steps.commit.outputs.sha }}
+        run: npm run vercel:preview-check
+
+      - name: Publish to dev and production
+        if: steps.mode.outputs.value == 'publish'
+        run: |
+          git fetch origin dev production
+          git push origin HEAD:dev
+          git push origin HEAD:production
+
+      - name: Report staging branch
+        if: steps.mode.outputs.value == 'staging-branch'
+        run: |
+          echo "Weekly news staging branch pushed: ${{ steps.branch.outputs.name }}"
+
+      - name: Open failure issue
+        if: failure() && steps.mode.outputs.value != 'dry-run'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          title="Weekly AI news automation failed - $(TZ=Asia/Taipei date +'%Y-%m-%d')"
+          body=$(cat <<'BODY'
+          The weekly AI news automation failed before publishing production.
+
+          Required follow-up:
+          - Inspect the failed workflow logs.
+          - Confirm official source coverage and generated article validation.
+          - Re-run in `staging-branch` mode before `publish` if manual correction is needed.
+
+          Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          Branch: ${{ steps.branch.outputs.name }}
+          Mode: ${{ steps.mode.outputs.value }}
+          BODY
+          )
+          gh issue create --repo "${{ github.repository }}" --title "$title" --body "$body"
