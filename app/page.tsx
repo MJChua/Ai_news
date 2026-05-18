@@ -1,7 +1,7 @@
 import Link from "next/link";
 import MobileShowMore from "./mobile-show-more";
 import SearchToast from "./search-toast";
-import { articles, type Article } from "@/lib/articles";
+import { sortedArticles, type Article } from "@/lib/articles";
 
 type HomeProps = {
   searchParams?: Promise<{
@@ -21,17 +21,6 @@ type TopicKey =
   | "anthropic"
   | "github-copilot"
   | "agent";
-
-const featuredSlug = "openai-codex-safety-2026-05-08";
-const categoryArticleSlugs = [
-  "openai-voice-api-models-2026-05-07",
-  "github-copilot-vscode-april-2026-05-06",
-] as const;
-const recentNewsSlugs = [
-  "openai-gpt55-instant-2026-05-05",
-  "anthropic-agents-financial-services-2026-05-05",
-  "github-mcp-secret-scanning-ga-2026-05-05",
-] as const;
 
 const categoryLinks: { topic: TopicKey; label: string }[] = [
   { topic: "models", label: "模型更新" },
@@ -59,10 +48,10 @@ export default async function Home({ searchParams }: HomeProps) {
   const params = (await searchParams) ?? {};
   const query = readSearchParam(params.q);
   const selectedTopic = readTopicParam(params.topic);
-  const featuredArticle = findArticle(featuredSlug);
-  const categoryArticles = categoryArticleSlugs.map(findArticle);
-  const recentNews = recentNewsSlugs.map(findArticle);
-  const archiveArticles = filterArticles(articles, query, selectedTopic);
+  const featuredArticle = sortedArticles[0];
+  const categoryArticles = getCategoryArticles(featuredArticle);
+  const recentNews = getRecentNews([featuredArticle, ...categoryArticles]);
+  const archiveArticles = filterArticles(sortedArticles, query, selectedTopic);
   const hasFilter = Boolean(query || selectedTopic);
   const resultSummary = hasFilter
     ? getSearchResultSummary(query, selectedTopic, archiveArticles.length)
@@ -200,16 +189,6 @@ function readTopicParam(value: string | string[] | undefined) {
   return "";
 }
 
-function findArticle(slug: string) {
-  const article = articles.find((item) => item.slug === slug);
-
-  if (!article) {
-    throw new Error(`Missing homepage article: ${slug}`);
-  }
-
-  return article;
-}
-
 function filterArticles(articleList: Article[], query: string, topic: TopicKey | "") {
   return articleList.filter((article) => {
     const matchesQuery = query ? getSearchText(article).includes(normalize(query)) : true;
@@ -217,6 +196,52 @@ function filterArticles(articleList: Article[], query: string, topic: TopicKey |
 
     return matchesQuery && matchesTopic;
   });
+}
+
+function getCategoryArticles(featuredArticle: Article) {
+  return fillFromLatest(
+    sortedArticles.filter((article) => {
+      return (
+        article.slug !== featuredArticle.slug &&
+        article.coverageBuckets.includes("software-frontend-engineering")
+      );
+    }),
+    new Set([featuredArticle.slug]),
+    2,
+  );
+}
+
+function getRecentNews(excludedArticles: Article[]) {
+  return fillFromLatest(
+    sortedArticles.filter((article) => {
+      return !excludedArticles.some((excluded) => excluded.slug === article.slug);
+    }),
+    new Set(excludedArticles.map((article) => article.slug)),
+    3,
+  );
+}
+
+function fillFromLatest(
+  preferredArticles: Article[],
+  excludedSlugs: Set<string>,
+  limit: number,
+) {
+  const selected = preferredArticles.slice(0, limit);
+  const selectedSlugs = new Set(selected.map((article) => article.slug));
+
+  if (selected.length >= limit) {
+    return selected;
+  }
+
+  for (const article of sortedArticles) {
+    if (selected.length >= limit) break;
+    if (excludedSlugs.has(article.slug) || selectedSlugs.has(article.slug)) continue;
+
+    selected.push(article);
+    selectedSlugs.add(article.slug);
+  }
+
+  return selected;
 }
 
 function topicMatchesArticle(article: Article, topic: TopicKey) {

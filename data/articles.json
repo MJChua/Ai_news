@@ -40,8 +40,8 @@
   "articles": [
     {
       "slug": "github-copilot-memory-user-preferences-2026-05-15",
-      "title": "GitHub Copilot Memory ???? Pro ? Pro+ ??????",
-      "summary": "GitHub ? Copilot Memory ?????????????????????? repository ? agent ?????",
+      "title": "GitHub Copilot Memory 支援 Pro 與 Pro+ 使用者偏好",
+      "summary": "GitHub 讓 Copilot Memory 開始記住使用者層級偏好，讓跨 repository 與 agent 工作流更一致。",
       "category": "前端與開發工具",
       "eventDate": "2026-05-15",
       "publishedDate": "2026-05-15",
@@ -67,15 +67,15 @@
       ],
       "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports early access for Copilot Pro and Pro+ users, user-level preference memory, and settings-based review/delete controls; it does not claim broader plan availability yet.",
       "keyPoints": [
-        "Copilot Memory ???????????????? repository ???",
-        "?????? repository ? Copilot agent ??????? commit ??? PR ???",
-        "???? early access???? Copilot Pro ? Pro+ ?????"
+        "Copilot Memory 現在可記住個人層級偏好，不再只限 repository 內容。",
+        "偏好可跨多個 repository 與 Copilot agent 體驗沿用，例如 commit 風格與 PR 結構。",
+        "目前仍屬 early access，且僅對 Copilot Pro 與 Pro+ 使用者開放。"
       ]
     },
     {
       "slug": "github-copilot-app-technical-preview-2026-05-14",
-      "title": "GitHub Copilot App ?????????? GitHub ??????????",
-      "summary": "GitHub ?? GitHub-native ?? Copilot App ?????? issue?PR?session ???????????????",
+      "title": "GitHub Copilot App 技術預覽從 GitHub 內容啟動代理工作",
+      "summary": "GitHub 推出 GitHub-native 桌面 Copilot App 技術預覽，把 issue、PR、session 與驗證流程放進同一個工作空間。",
       "category": "前端與開發工具",
       "eventDate": "2026-05-14",
       "publishedDate": "2026-05-14",
@@ -101,15 +101,15 @@
       ],
       "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports technical preview status, GitHub-context session starts, isolated session workspaces, and pull-request follow-through; it does not claim general availability.",
       "keyPoints": [
-        "Session ???? issue?pull request?prompt ??? session ???",
-        "?? session ?????? branch?files?conversation ? task state?",
-        "??????????? diff??????????? PR?"
+        "Session 可直接從 issue、pull request、prompt 或先前 session 開始。",
+        "每個 session 會保有自己的 branch、files、conversation 與 task state。",
+        "同一個桌面體驗內可查看 diff、跑指令、開預覽並送出 PR。"
       ]
     },
     {
       "slug": "github-copilot-cloud-agent-auto-model-selection-2026-05-14",
-      "title": "GitHub Copilot cloud agent ?????????? Auto ??????",
-      "summary": "GitHub ? Copilot cloud agent ?? auto model selection????????????????????? 10% multiplier ???",
+      "title": "GitHub Copilot cloud agent 新增 Auto 模型選擇",
+      "summary": "GitHub 為 Copilot cloud agent 加入 auto model selection，依系統健康與模型表現自動挑選模型，並提供 10% multiplier 折扣。",
       "category": "前端與開發工具",
       "eventDate": "2026-05-14",
       "publishedDate": "2026-05-14",
@@ -135,15 +135,15 @@
       ],
       "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports Auto mode, system-health/performance-based model selection, a 10% discount on the normal model multiplier, and exemption from weekly rate limits; it does not disclose the exact selection policy.",
       "keyPoints": [
-        "???? model picker ?? Auto ??Copilot ??????????",
-        "?????? Auto ??? system health ? model performance?",
-        "Auto ?????? multiplier ?????? weekly rate limits ???"
+        "使用者在 model picker 選擇 Auto 後，Copilot 會自動挑選可用模型。",
+        "官方明確提到 Auto 會考量 system health 與 model performance。",
+        "Auto 模式享有正常 multiplier 九折，且不受 weekly rate limits 影響。"
       ]
     },
     {
       "slug": "github-copilot-cli-agent-jetbrains-sessions-2026-05-13",
-      "title": "GitHub Copilot for JetBrains ?? CLI agent ??? session ??",
-      "summary": "GitHub ? Copilot CLI agent ?? JetBrains IDE???? unified sessions view?Ask question tool ??? `.agent.md` ???",
+      "title": "GitHub Copilot for JetBrains 加入 CLI agent 與 session 檢視",
+      "summary": "GitHub 把 Copilot CLI agent 帶進 JetBrains IDE，並新增 unified sessions view、Ask question tool 與全域 `.agent.md` 支援。",
       "category": "前端與開發工具",
       "eventDate": "2026-05-13",
       "publishedDate": "2026-05-13",
@@ -169,15 +169,15 @@
       ],
       "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports public preview of Copilot CLI agent in JetBrains, worktree/workspace isolation modes, unified sessions view, Ask question tool, and global `.agent.md` support.",
       "keyPoints": [
-        "JetBrains ???????????? Copilot CLI agent?",
-        "???? worktree isolation ? workspace isolation ???????",
-        "?? unified sessions view ????????????? agent session?"
+        "JetBrains 內可委派工作給本機執行的 Copilot CLI agent。",
+        "官方提供 worktree isolation 與 workspace isolation 兩種隔離模式。",
+        "新的 unified sessions view 可集中查看執行中與排隊中的 agent session。"
       ]
     },
     {
       "slug": "github-team-copilot-usage-metrics-api-2026-05-14",
-      "title": "GitHub Copilot usage metrics API ?? team-level ????",
-      "summary": "GitHub ? Copilot usage metrics API ??? user-teams report??????????chat?CLI ? code review ????? team?",
+      "title": "GitHub Copilot usage metrics API 新增 team-level 報表",
+      "summary": "GitHub 在 Copilot usage metrics API 中加入 user-teams report，讓企業可把活躍度、chat、CLI 與 code review 活動下鑽到 team。",
       "category": "前端與開發工具",
       "eventDate": "2026-05-14",
       "publishedDate": "2026-05-14",
@@ -203,15 +203,15 @@
       ],
       "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports the new user-teams report, the two REST endpoints, join guidance with per-user reports, and coverage across CLI, code review, chat, and cloud agent; it does not provide a built-in dashboard.",
       "keyPoints": [
-        "API ?? user-teams report??? Copilot ?????????? team?",
-        "??? per-user report join ????? active users?completions?chat ? model ?????",
-        "??????? REST API????????? dashboard ???"
+        "API 新增 user-teams report，可把 Copilot 授權使用者對應到所屬 team。",
+        "與既有 per-user report join 後，可彙整 active users、completions、chat 與 model 使用情況。",
+        "這次釋出只提供 REST API，官方明說尚未提供 dashboard 介面。"
       ]
     },
     {
       "slug": "vercel-ai-gateway-provider-sorting-2026-05-15",
-      "title": "Vercel AI Gateway ?????????????? token ????????",
-      "summary": "Vercel ? AI Gateway ? provider routing ???? cost?TTFT ? TPS ?????????????????????",
+      "title": "Vercel AI Gateway 可依成本、首 token 延遲或吞吐量排序供應商",
+      "summary": "Vercel 讓 AI Gateway 的 provider routing 可顯式按 cost、TTFT 或 TPS 排序，適合做成本敏感與低延遲工作負載控制。",
       "category": "前端與開發工具",
       "eventDate": "2026-05-15",
       "publishedDate": "2026-05-15",
@@ -237,15 +237,15 @@
       ],
       "verificationNote": "Verified against the Vercel changelog post on 2026-05-18. The source supports sort options for cost, TTFT, and TPS, request-time ranking, and compatibility with other routing controls like ZDR; it does not claim guaranteed savings for every model/provider set.",
       "keyPoints": [
-        "AI Gateway ?? `sort` ????? cost?ttft?tps ?????? provider?",
-        "??? request time ???????? provider????????????/?????",
-        "?? ZDR ??? routing ???????"
+        "AI Gateway 新增 `sort` 參數，可用 cost、ttft、tps 三種維度排序 provider。",
+        "排序在 request time 計算，會反映新增 provider、價格變化與觀測到的延遲或吞吐變化。",
+        "可與 ZDR 等其他 routing 控制組合使用。"
       ]
     },
     {
       "slug": "vercel-opus47-fast-mode-ai-gateway-2026-05-12",
-      "title": "Vercel AI Gateway ?? Claude Opus 4.7 Fast mode ????",
-      "summary": "Vercel ? AI Gateway ??? Claude Opus 4.7 Fast mode ???????? 2.5 ??? token ?????????????? 6 ??",
+      "title": "Vercel AI Gateway 提供 Claude Opus 4.7 Fast mode 預覽",
+      "summary": "Vercel 在 AI Gateway 上開放 Claude Opus 4.7 Fast mode 研究預覽，主打約 2.5 倍輸出 token 速度，但定價也提升到標準模式 6 倍。",
       "category": "AI 模型與平台",
       "eventDate": "2026-05-12",
       "publishedDate": "2026-05-12",
@@ -271,15 +271,15 @@
       ],
       "verificationNote": "Verified against the Vercel changelog post on 2026-05-18. The source supports research preview status, `speed: \"fast\"` provider option, ~2.5x faster output token generation, Claude Code environment variables, and 6x pricing versus standard Opus 4.7.",
       "keyPoints": [
-        "Fast mode ?? `providerOptions.anthropic.speed = \"fast\"` ???",
-        "????? token ???????? Opus 4.7 intelligence ? 2.5 ??",
-        "Fast mode ????? Opus 4.7 ? 6 ???? research preview?"
+        "Fast mode 透過 `providerOptions.anthropic.speed = \"fast\"` 啟用。",
+        "官方稱輸出 token 生成速度約為完整 Opus 4.7 intelligence 的 2.5 倍。",
+        "Fast mode 價格是標準 Opus 4.7 的 6 倍，仍屬 research preview。"
       ]
     },
     {
       "slug": "vercel-firewall-natural-language-rules-2026-05-12",
-      "title": "Vercel Firewall ???????? WAF ??",
-      "summary": "Vercel ????????? Firewall??? WAF ???????????? dashboard ? CLI ???",
+      "title": "Vercel Firewall 可用自然語言建立 WAF 規則",
+      "summary": "Vercel 將自然語言生成帶進 Firewall，自訂 WAF 規則可直接從需求描述轉成 dashboard 或 CLI 操作。",
       "category": "前端與開發工具",
       "eventDate": "2026-05-12",
       "publishedDate": "2026-05-12",
@@ -306,15 +306,15 @@
       ],
       "verificationNote": "Verified against the Vercel changelog post on 2026-05-18. The source supports natural-language rule creation in Vercel Firewall, example CLI usage, and supported actions like logging, blocking, challenging, rate limiting, and redirecting; it does not state automatic rule correctness guarantees.",
       "keyPoints": [
-        "????? dashboard ??????????????? WAF custom rule?",
-        "CLI ??? `vercel firewall rules add --ai` ???????",
-        "???? WAF custom rules??? log?block?challenge?rate limit ? redirect?"
+        "使用者可在 dashboard 以自然語言描述需求，由系統生成 WAF custom rule。",
+        "CLI 也支援 `vercel firewall rules add --ai` 方式建立規則。",
+        "規則仍是 WAF custom rules，能做 log、block、challenge、rate limit 與 redirect。"
       ]
     },
     {
       "slug": "anthropic-claude-small-business-2026-05-13",
-      "title": "Anthropic ?? Claude for Small Business????????????",
-      "summary": "Anthropic ?? Claude for Small Business?? Claude ?? QuickBooks?PayPal?HubSpot ??????? 15 ? ready-to-run workflows ? 15 ? skills?",
+      "title": "Anthropic 推出 Claude for Small Business，鎖定中小企業工作流",
+      "summary": "Anthropic 發布 Claude for Small Business，把 Claude 放進 QuickBooks、PayPal、HubSpot 等工具，並附帶 15 個 ready-to-run workflows 與 15 個 skills。",
       "category": "AI 模型與平台",
       "eventDate": "2026-05-13",
       "publishedDate": "2026-05-13",
@@ -340,15 +340,15 @@
       ],
       "verificationNote": "Verified against the Anthropic news post on 2026-05-18. The source supports launch status, integration targets including QuickBooks/PayPal/HubSpot, the 15 workflows and 15 skills counts, and the approval-before-send framing; it does not provide broad adoption metrics.",
       "keyPoints": [
-        "Claude for Small Business ??? QuickBooks?PayPal?HubSpot?Canva?DocuSign?Google Workspace ? Microsoft 365?",
-        "???? 15 ? ready-to-run agentic workflows ? 15 ? skills?",
-        "Anthropic ?? Claude ??????????????????????????"
+        "Claude for Small Business 可接入 QuickBooks、PayPal、HubSpot、Canva、DocuSign、Google Workspace 與 Microsoft 365。",
+        "產品內建 15 個 ready-to-run agentic workflows 與 15 個 skills。",
+        "Anthropic 強調 Claude 會先完成工作草案，再由人類決定是否送出、發文或付款。"
       ]
     },
     {
       "slug": "anthropic-gates-foundation-partnership-2026-05-14",
-      "title": "Anthropic ? Gates Foundation ?? 2 ???????????????",
-      "summary": "Anthropic ??? Gates Foundation ?? 2 ????????? grant funding?Claude credits ??????????????????????????",
+      "title": "Anthropic 與 Gates Foundation 展開 2 億美元合作",
+      "summary": "Anthropic 宣布與 Gates Foundation 推出 2 億美元合作案，提供 grant funding、Claude credits 與技術支援，用於健康、生命科學、教育與經濟流動計畫。",
       "category": "公司與產業動態",
       "eventDate": "2026-05-14",
       "publishedDate": "2026-05-14",
@@ -373,9 +373,9 @@
       ],
       "verificationNote": "Verified against the Anthropic news post on 2026-05-18. The source supports the $200 million scale, four-year duration, target domains, and planned creation of connectors, benchmarks, and evaluation frameworks for healthcare intelligence; it does not quantify downstream program outcomes yet.",
       "keyPoints": [
-        "??????? 2 ???????? grant funding?Claude credits ??????",
-        "????????????????????????",
-        "Anthropic ???? healthcare intelligence ?? connectors?benchmarks ? evaluation frameworks?"
+        "合作案總規模為 2 億美元，內容包含 grant funding、Claude credits 與技術支援。",
+        "四年計畫聚焦全球健康、生命科學、教育與經濟流動。",
+        "Anthropic 表示會為 healthcare intelligence 建立 connectors、benchmarks 與 evaluation frameworks。"
       ]
     },
     {

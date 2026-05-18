@@ -218,7 +218,14 @@ async function checkNotes() {
     if (!item.title) errors.push(`${item.slug} missing title.`);
     if (!item.weeklyIssueDate) errors.push(`${item.slug} missing weeklyIssueDate.`);
     if (!item.hackmdNoteId) errors.push(`${item.slug} missing hackmdNoteId.`);
-    if (!articleMap.has(item.slug)) errors.push(`${item.slug} missing article metadata.`);
+    const article = articleMap.get(item.slug);
+    if (!article) errors.push(`${item.slug} missing article metadata.`);
+    if (hasLikelyQuestionMarkMojibake(item.title)) {
+      errors.push(`${item.slug} manifest title has likely question-mark mojibake.`);
+    }
+    if (article && hasArticleMojibake(article)) {
+      errors.push(`${item.slug} article metadata has likely question-mark mojibake.`);
+    }
     if (seenSlugs.has(item.slug)) errors.push(`Duplicate slug in manifest: ${item.slug}.`);
     seenSlugs.add(item.slug);
 
@@ -226,6 +233,9 @@ async function checkNotes() {
     if (!cached?.markdown) {
       errors.push(`${item.slug} missing generated HackMD markdown. Run hackmd:pull.`);
       continue;
+    }
+    if (hasLikelyQuestionMarkMojibake(cached.markdown)) {
+      errors.push(`${item.slug} generated HackMD markdown has likely question-mark mojibake.`);
     }
 
     for (const section of requiredSections) {
@@ -246,6 +256,18 @@ function loadArticleMap() {
   const articleData = JSON.parse(readFileSyncUtf8(articlesDataPath));
 
   return new Map(articleData.articles.map((article) => [article.slug, article]));
+}
+
+function hasArticleMojibake(article) {
+  return hasLikelyQuestionMarkMojibake([
+    article.title,
+    article.summary,
+    ...(article.keyPoints ?? []),
+  ].join("\n"));
+}
+
+function hasLikelyQuestionMarkMojibake(value) {
+  return /\?{3,}/.test(String(value ?? ""));
 }
 
 function createNoteContent(article) {
