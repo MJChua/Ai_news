@@ -1,0 +1,94 @@
+{
+  "sources": [
+    {
+      "id": "openai-news",
+      "name": "OpenAI News",
+      "url": "https://openai.com/news/rss.xml",
+      "format": "rss",
+      "sourceType": "official",
+      "includeKeywords": [
+        "ai",
+        "api",
+        "chatgpt",
+        "codex",
+        "developer",
+        "gpt",
+        "model",
+        "openai",
+        "realtime",
+        "safety"
+      ]
+    },
+    {
+      "id": "github-changelog",
+      "name": "GitHub Changelog",
+      "url": "https://github.blog/changelog/feed/",
+      "format": "rss",
+      "sourceType": "official",
+      "includeKeywords": [
+        "agent",
+        "ai",
+        "api",
+        "code review",
+        "codeql",
+        "copilot",
+        "github actions",
+        "mcp",
+        "model",
+        "security"
+      ]
+    },
+    {
+      "id": "google-deepmind",
+      "name": "Google DeepMind Blog",
+      "url": "https://deepmind.google/blog/rss.xml",
+      "format": "rss",
+      "sourceType": "official",
+      "includeKeywords": [
+        "ai",
+        "agent",
+        "deepmind",
+        "gemini",
+        "google",
+        "model",
+        "research",
+        "safety"
+      ]
+    },
+    {
+      "id": "anthropic-news",
+      "name": "Anthropic News",
+      "url": "https://www.anthropic.com/news",
+      "format": "html",
+      "sourceType": "official",
+      "includeKeywords": [
+        "agent",
+        "ai",
+        "anthropic",
+        "api",
+        "claude",
+        "model",
+        "research",
+        "safety"
+      ]
+    },
+    {
+      "id": "vercel-changelog",
+      "name": "Vercel Changelog",
+      "url": "https://vercel.com/changelog",
+      "format": "html",
+      "sourceType": "official",
+      "includeKeywords": [
+        "ai",
+        "agent",
+        "api",
+        "deployment",
+        "next.js",
+        "sdk",
+        "security",
+        "vercel",
+        "workflow"
+      ]
+    }
+  ]
+}
