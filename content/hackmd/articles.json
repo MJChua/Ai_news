@@ -77,6 +77,76 @@
       "weeklyIssueDate": "2026-05-10",
       "hackmdNoteId": "YxmxuQNgTrCeFsZEr_Nwgw",
       "status": "synced"
+    },
+    {
+      "slug": "github-copilot-memory-user-preferences-2026-05-15",
+      "title": "GitHub Copilot Memory 支援 Pro 與 Pro+ 使用者偏好",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "fuhSs1yQRmWib86YXAPOjQ",
+      "status": "synced"
+    },
+    {
+      "slug": "github-copilot-app-technical-preview-2026-05-14",
+      "title": "GitHub Copilot App 技術預覽從 GitHub 內容啟動代理工作",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "zXYMJSbmQ2Sova-cLaQr6w",
+      "status": "synced"
+    },
+    {
+      "slug": "github-copilot-cloud-agent-auto-model-selection-2026-05-14",
+      "title": "GitHub Copilot cloud agent 新增 Auto 模型選擇",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "XuNx-qFPTiG2EfMeQPYRrg",
+      "status": "synced"
+    },
+    {
+      "slug": "github-copilot-cli-agent-jetbrains-sessions-2026-05-13",
+      "title": "GitHub Copilot for JetBrains 加入 CLI agent 與 session 檢視",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "PCTwXJ8kRDWocaJPZL0g_g",
+      "status": "synced"
+    },
+    {
+      "slug": "github-team-copilot-usage-metrics-api-2026-05-14",
+      "title": "GitHub Copilot usage metrics API 新增 team-level 報表",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "39o5Zwl7RGGOfhuKcB8MnQ",
+      "status": "synced"
+    },
+    {
+      "slug": "vercel-ai-gateway-provider-sorting-2026-05-15",
+      "title": "Vercel AI Gateway 可依成本、首 token 延遲或吞吐量排序供應商",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "dHKjXUq-T6GZwPv_P10-Xg",
+      "status": "synced"
+    },
+    {
+      "slug": "vercel-opus47-fast-mode-ai-gateway-2026-05-12",
+      "title": "Vercel AI Gateway 提供 Claude Opus 4.7 Fast mode 預覽",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "K2iT3qE-S0ihBq6Mak1zgg",
+      "status": "synced"
+    },
+    {
+      "slug": "vercel-firewall-natural-language-rules-2026-05-12",
+      "title": "Vercel Firewall 可用自然語言建立 WAF 規則",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "60gl-TEISP-SXFQ-SFBRSg",
+      "status": "synced"
+    },
+    {
+      "slug": "anthropic-claude-small-business-2026-05-13",
+      "title": "Anthropic 推出 Claude for Small Business，鎖定中小企業工作流",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "bRkAR9zNSdWmsZolbp3BMQ",
+      "status": "synced"
+    },
+    {
+      "slug": "anthropic-gates-foundation-partnership-2026-05-14",
+      "title": "Anthropic 與 Gates Foundation 展開 2 億美元合作",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "V-rMuWgeThK5TQ4sHaPaCg",
+      "status": "synced"
     }
   ]
 }
