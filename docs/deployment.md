@@ -20,19 +20,31 @@ Free in this document means Vercel hosting on the Hobby plan. A custom domain ma
 - Build command: `npm run build`.
 - Production branch: `production`.
 - Preview deployments: every branch and pull request that is not `production`.
-- Runtime content source: committed local data, including `data/generated/hackmd-articles.json`.
-- HackMD sync: manual local sync only, then commit the generated cache.
+- Runtime content source: committed local data, including `data/articles.json` and `data/generated/hackmd-articles.json`.
+- HackMD sync: weekly automation syncs HackMD notes, then commits the generated cache.
 
-Do not add a Vercel build step that runs `npm run hackmd:pull` for the first production release. The deployed site should build from committed files only.
+Do not add a Vercel build step that runs `npm run hackmd:pull`. The deployed site should build from committed files only.
 
 ## Environment Variables
 
 Local development uses `.env.local`. Git must not track `.env.local`, API tokens, Vercel tokens, or copied secrets.
 
-The first production release does not need HackMD environment variables on Vercel because the site reads the committed generated cache. If a later release needs Vercel to call the HackMD API, add these values in Vercel Project Settings, scoped only to the environments that need them:
+Production deployments do not need HackMD environment variables on Vercel because the site reads the committed generated cache. The weekly GitHub Actions workflow needs these GitHub Secrets:
 
 - `HACKMD_API_TOKEN`
-- `HACKMD_INDEX_NOTE_ID`
+- `OPENAI_API_KEY`
+- `VERCEL_TOKEN`
+
+The weekly workflow needs these GitHub Variables:
+
+- `AI_NEWS_MODEL`
+- `VERCEL_PROJECT_ID`
+- `VERCEL_ORG_ID`
+- `MIN_WEEKLY_NEWS_ITEMS`
+
+If Vercel Preview Deployment Protection blocks smoke tests, also configure this GitHub Secret:
+
+- `VERCEL_AUTOMATION_BYPASS_SECRET`
 
 Never prefix secrets with `NEXT_PUBLIC_`. Values with that prefix can be exposed to browser code.
 
@@ -53,6 +65,19 @@ Vercel Git deployments create Preview Deployments for non-production branches an
 
 ## Release Flow
 
+Weekly production news releases are handled by `.github/workflows/weekly-news-production.yml`:
+
+1. Generate a staged weekly news commit from `dev`.
+2. Sync HackMD and pull the generated cache.
+3. Run `npm run hackmd:check`, `npm run lint`, and `npm run build`.
+4. Push the staging branch so Vercel creates a Preview Deployment.
+5. Smoke test the Preview homepage and latest article detail route.
+6. Push the validated commit to `dev` and `production`.
+
+If any step fails, the workflow opens a GitHub issue and does not update production.
+
+## Manual Release Flow
+
 1. Start from `dev`.
 2. Confirm the local release candidate:
 
@@ -69,7 +94,7 @@ npm run build
    - Article list renders.
    - At least one article detail page opens.
    - Desktop and mobile widths have no obvious text overlap.
-5. Merge the validated release into `production`.
+5. Merge or push the validated release into `production`.
 6. Confirm Vercel creates a Production Deployment from `production`.
 7. Smoke test the Production URL before pointing or announcing a custom domain.
 

@@ -5,7 +5,7 @@
 - `master`: project bootstrap and baseline branch.
 - `dev`: daily integration branch. Create normal work branches from here.
 - `sit`: weekly sprint integration testing branch. The scheduled workflow attempts to merge `dev` into `sit`.
-- `production`: future production branch. Do not merge into it until a dedicated domain, deployment target, and release checks exist.
+- `production`: Vercel Production Branch. The weekly news automation may update it only after all automated checks and Vercel Preview smoke checks pass.
 
 ## Daily Development
 
@@ -31,19 +31,22 @@ npm run build
 
 ## Weekly News Update
 
-- Every Sunday, update AI news for the previous 7 days.
-- Start from `dev` and create `feature/renew_news_<english-summary>`.
+- `.github/workflows/weekly-news-production.yml` runs every Monday at 09:00 Asia/Taipei (`0 1 * * 1` UTC).
+- The workflow starts from `dev` and creates `feature/renew_news_auto_<yyyymmdd>`.
+- The content window is the previous Monday through Sunday in Asia/Taipei.
+- The workflow uses the official/primary source list in `data/weekly-news-sources.json`.
+- OpenAI Responses API structured output generates original AI News Radar article metadata and HackMD body Markdown from the supplied source text only.
 - Add or update 8-10 verified items when enough official or primary sources exist.
-- If verified sources are insufficient, publish fewer items and explain the exclusion in the PR.
+- Do not publish if fewer than `MIN_WEEKLY_NEWS_ITEMS` verified items pass validation. The default minimum is 5.
+- Store article metadata in `data/articles.json`.
 - Store article body Markdown in HackMD and sync it through the HackMD API.
-- The PR body must include date range, source list, coverage ratio summary, verification notes, and excluded notable candidates.
-- Do not merge directly into `dev`; push the feature branch and open a PR.
+- If generation, HackMD sync, validation, build, or Vercel Preview smoke checks fail, do not update `dev` or `production`; the workflow opens a GitHub issue.
 
 ## Production Rules
 
 - `production` is the Vercel Production Branch.
-- Do not auto-merge into `production`.
-- Only merge into `production` after the release candidate has passed `npm run hackmd:check`, `npm run lint`, `npm run build`, and a Vercel Preview smoke check.
+- Weekly news automation may push to `production` only after `npm run hackmd:check`, `npm run lint`, `npm run build`, and Vercel Preview smoke checks pass.
+- Manual production updates must pass the same checks before merge or push.
 - The public custom domain must point only to the Vercel Production Deployment, not to Preview Deployments.
 - Production rollback must use the Vercel Dashboard rollback flow or `vercel rollback`, then verify the custom domain, homepage, and article detail route.
 - Deployment details are documented in `docs/deployment.md`.
@@ -53,6 +56,6 @@ npm run build
 - Code changes: `npm run lint` and `npm run build`.
 - UI changes: desktop and mobile layout check.
 - Article content changes: verify dates, sources, URLs, and verification notes.
-- Weekly news changes: run `npm run hackmd:check`, then follow `docs/ai/weekly-news-update.md`.
+- Weekly news changes: run `npm run news:self-test`, `npm run hackmd:check`, then follow `docs/ai/weekly-news-update.md`.
 - Workflow changes: inspect YAML and confirm branch names match this document.
 

@@ -1,10 +1,9 @@
 import { existsSync, readFileSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import vm from "node:vm";
-import ts from "typescript";
 
 const root = process.cwd();
+const articlesDataPath = path.join(root, "data", "articles.json");
 const manifestPath = path.join(root, "content", "hackmd", "articles.json");
 const generatedPath = path.join(root, "data", "generated", "hackmd-articles.json");
 const apiBase = "https://api.hackmd.io/v1";
@@ -239,25 +238,9 @@ async function checkNotes() {
 }
 
 function loadArticleMap() {
-  const articlesPath = path.join(root, "lib", "articles.ts");
-  const source = readFileSyncUtf8(articlesPath);
-  const transpiled = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2020,
-      esModuleInterop: true,
-    },
-  }).outputText;
-  const sandbox = {
-    exports: {},
-    module: { exports: {} },
-  };
-  sandbox.exports = sandbox.module.exports;
-  vm.runInNewContext(transpiled, sandbox, { filename: articlesPath });
+  const articleData = JSON.parse(readFileSyncUtf8(articlesDataPath));
 
-  return new Map(
-    sandbox.module.exports.articles.map((article) => [article.slug, article]),
-  );
+  return new Map(articleData.articles.map((article) => [article.slug, article]));
 }
 
 function createNoteContent(article) {
