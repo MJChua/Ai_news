@@ -647,6 +647,12 @@ function validateGeneratedArticles(articles, context) {
     if (article.weeklyIssueDate !== context.window.weeklyIssueDate) {
       errors.push(`${label} weeklyIssueDate must be ${context.window.weeklyIssueDate}.`);
     }
+    if (hasArticleMojibake(article)) {
+      errors.push(`${label} article text has likely question-mark mojibake.`);
+    }
+    if (hasLikelyQuestionMarkMojibake(article.markdown)) {
+      errors.push(`${label} markdown has likely question-mark mojibake.`);
+    }
     if (!isWithinWindow(article.publishedDate, context.window)) {
       errors.push(`${label} publishedDate is outside the weekly window.`);
     }
@@ -733,6 +739,18 @@ function uniqueBy(items, keyFn) {
     result.push(item);
   }
   return result;
+}
+
+function hasArticleMojibake(article) {
+  return hasLikelyQuestionMarkMojibake([
+    article.title,
+    article.summary,
+    ...(article.keyPoints ?? []),
+  ].join("\n"));
+}
+
+function hasLikelyQuestionMarkMojibake(value) {
+  return /\?{3,}/.test(String(value ?? ""));
 }
 
 function runSelfTest() {
