@@ -7,6 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "news:update": "node scripts/weekly-news.mjs run",
+    "news:dry-run": "node scripts/weekly-news.mjs dry-run",
+    "news:self-test": "node scripts/weekly-news.mjs self-test",
+    "vercel:preview-check": "node scripts/vercel-preview-check.mjs",
     "hackmd:push": "node scripts/hackmd-sync.mjs push",
     "hackmd:pull": "node scripts/hackmd-sync.mjs pull",
     "hackmd:check": "node scripts/hackmd-sync.mjs check"

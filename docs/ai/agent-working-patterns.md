@@ -26,7 +26,8 @@ Do not start with broad refactors. Let the request and nearby code decide the sc
 - `app/` contains Next.js App Router routes and global styles.
 - `app/page.tsx` renders the homepage.
 - `app/articles/[slug]/page.tsx` renders article detail pages.
-- `lib/articles.ts` stores the typed local article dataset.
+- `data/articles.json` stores the repo-tracked article dataset.
+- `lib/articles.ts` exposes typed article data to the app.
 - `public/` stores static assets.
 - `docs/ai/` stores AI and engineering context.
 - `.github/workflows/` stores GitHub Actions workflows.
@@ -40,7 +41,7 @@ Prefer existing locations over introducing new folders.
 - Use Next.js App Router conventions.
 - Keep pages as Server Components unless client interactivity is required.
 - Use Tailwind utility classes already present in the app.
-- Keep article data separate from layout logic.
+- Keep article data in `data/articles.json` separate from layout logic.
 - Keep files ASCII when practical; Traditional Chinese user-facing copy is allowed when needed.
 
 ## Scope Control
