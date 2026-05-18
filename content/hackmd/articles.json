@@ -77,6 +77,76 @@
       "weeklyIssueDate": "2026-05-10",
       "hackmdNoteId": "YxmxuQNgTrCeFsZEr_Nwgw",
       "status": "synced"
+    },
+    {
+      "slug": "github-copilot-memory-user-preferences-2026-05-15",
+      "title": "GitHub Copilot Memory ???? Pro ? Pro+ ??????",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "fuhSs1yQRmWib86YXAPOjQ",
+      "status": "synced"
+    },
+    {
+      "slug": "github-copilot-app-technical-preview-2026-05-14",
+      "title": "GitHub Copilot App ?????????? GitHub ??????????",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "zXYMJSbmQ2Sova-cLaQr6w",
+      "status": "synced"
+    },
+    {
+      "slug": "github-copilot-cloud-agent-auto-model-selection-2026-05-14",
+      "title": "GitHub Copilot cloud agent ?????????? Auto ??????",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "XuNx-qFPTiG2EfMeQPYRrg",
+      "status": "synced"
+    },
+    {
+      "slug": "github-copilot-cli-agent-jetbrains-sessions-2026-05-13",
+      "title": "GitHub Copilot for JetBrains ?? CLI agent ??? session ??",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "PCTwXJ8kRDWocaJPZL0g_g",
+      "status": "synced"
+    },
+    {
+      "slug": "github-team-copilot-usage-metrics-api-2026-05-14",
+      "title": "GitHub Copilot usage metrics API ?? team-level ????",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "39o5Zwl7RGGOfhuKcB8MnQ",
+      "status": "synced"
+    },
+    {
+      "slug": "vercel-ai-gateway-provider-sorting-2026-05-15",
+      "title": "Vercel AI Gateway ?????????????? token ????????",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "dHKjXUq-T6GZwPv_P10-Xg",
+      "status": "synced"
+    },
+    {
+      "slug": "vercel-opus47-fast-mode-ai-gateway-2026-05-12",
+      "title": "Vercel AI Gateway ?? Claude Opus 4.7 Fast mode ????",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "K2iT3qE-S0ihBq6Mak1zgg",
+      "status": "synced"
+    },
+    {
+      "slug": "vercel-firewall-natural-language-rules-2026-05-12",
+      "title": "Vercel Firewall ???????? WAF ??",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "60gl-TEISP-SXFQ-SFBRSg",
+      "status": "synced"
+    },
+    {
+      "slug": "anthropic-claude-small-business-2026-05-13",
+      "title": "Anthropic ?? Claude for Small Business????????????",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "bRkAR9zNSdWmsZolbp3BMQ",
+      "status": "synced"
+    },
+    {
+      "slug": "anthropic-gates-foundation-partnership-2026-05-14",
+      "title": "Anthropic ? Gates Foundation ?? 2 ???????????????",
+      "weeklyIssueDate": "2026-05-17",
+      "hackmdNoteId": "V-rMuWgeThK5TQ4sHaPaCg",
+      "status": "synced"
     }
   ]
 }

@@ -39,6 +39,346 @@
   },
   "articles": [
     {
+      "slug": "github-copilot-memory-user-preferences-2026-05-15",
+      "title": "GitHub Copilot Memory ???? Pro ? Pro+ ??????",
+      "summary": "GitHub ? Copilot Memory ?????????????????????? repository ? agent ?????",
+      "category": "前端與開發工具",
+      "eventDate": "2026-05-15",
+      "publishedDate": "2026-05-15",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "中",
+      "coverageBuckets": [
+        "ai-tech-tools",
+        "software-frontend-engineering"
+      ],
+      "comparisonTargets": [
+        "GitHub Copilot Memory",
+        "repository-level memory",
+        "user preferences"
+      ],
+      "sources": [
+        {
+          "name": "GitHub Changelog",
+          "url": "https://github.blog/changelog/2026-05-15-copilot-memory-supports-user-preferences-for-pro-pro-users",
+          "publishedDate": "2026-05-15",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports early access for Copilot Pro and Pro+ users, user-level preference memory, and settings-based review/delete controls; it does not claim broader plan availability yet.",
+      "keyPoints": [
+        "Copilot Memory ???????????????? repository ???",
+        "?????? repository ? Copilot agent ??????? commit ??? PR ???",
+        "???? early access???? Copilot Pro ? Pro+ ?????"
+      ]
+    },
+    {
+      "slug": "github-copilot-app-technical-preview-2026-05-14",
+      "title": "GitHub Copilot App ?????????? GitHub ??????????",
+      "summary": "GitHub ?? GitHub-native ?? Copilot App ?????? issue?PR?session ???????????????",
+      "category": "前端與開發工具",
+      "eventDate": "2026-05-14",
+      "publishedDate": "2026-05-14",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "高",
+      "coverageBuckets": [
+        "ai-tech-tools",
+        "software-frontend-engineering"
+      ],
+      "comparisonTargets": [
+        "GitHub Copilot app",
+        "desktop agent workflow",
+        "pull request review"
+      ],
+      "sources": [
+        {
+          "name": "GitHub Changelog",
+          "url": "https://github.blog/changelog/2026-05-14-github-copilot-app-is-now-available-in-technical-preview",
+          "publishedDate": "2026-05-14",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports technical preview status, GitHub-context session starts, isolated session workspaces, and pull-request follow-through; it does not claim general availability.",
+      "keyPoints": [
+        "Session ???? issue?pull request?prompt ??? session ???",
+        "?? session ?????? branch?files?conversation ? task state?",
+        "??????????? diff??????????? PR?"
+      ]
+    },
+    {
+      "slug": "github-copilot-cloud-agent-auto-model-selection-2026-05-14",
+      "title": "GitHub Copilot cloud agent ?????????? Auto ??????",
+      "summary": "GitHub ? Copilot cloud agent ?? auto model selection????????????????????? 10% multiplier ???",
+      "category": "前端與開發工具",
+      "eventDate": "2026-05-14",
+      "publishedDate": "2026-05-14",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "中",
+      "coverageBuckets": [
+        "ai-tech-tools",
+        "software-frontend-engineering"
+      ],
+      "comparisonTargets": [
+        "Copilot cloud agent",
+        "auto model selection",
+        "weekly rate limits"
+      ],
+      "sources": [
+        {
+          "name": "GitHub Changelog",
+          "url": "https://github.blog/changelog/2026-05-14-copilot-cloud-agent-supports-auto-model-selection",
+          "publishedDate": "2026-05-14",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports Auto mode, system-health/performance-based model selection, a 10% discount on the normal model multiplier, and exemption from weekly rate limits; it does not disclose the exact selection policy.",
+      "keyPoints": [
+        "???? model picker ?? Auto ??Copilot ??????????",
+        "?????? Auto ??? system health ? model performance?",
+        "Auto ?????? multiplier ?????? weekly rate limits ???"
+      ]
+    },
+    {
+      "slug": "github-copilot-cli-agent-jetbrains-sessions-2026-05-13",
+      "title": "GitHub Copilot for JetBrains ?? CLI agent ??? session ??",
+      "summary": "GitHub ? Copilot CLI agent ?? JetBrains IDE???? unified sessions view?Ask question tool ??? `.agent.md` ???",
+      "category": "前端與開發工具",
+      "eventDate": "2026-05-13",
+      "publishedDate": "2026-05-13",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "高",
+      "coverageBuckets": [
+        "ai-tech-tools",
+        "software-frontend-engineering"
+      ],
+      "comparisonTargets": [
+        "GitHub Copilot",
+        "JetBrains IDEs",
+        "CLI agent"
+      ],
+      "sources": [
+        {
+          "name": "GitHub Changelog",
+          "url": "https://github.blog/changelog/2026-05-13-introducing-copilot-cli-agent-and-unified-sessions-view-in-github-copilot-for-jetbrains-ides",
+          "publishedDate": "2026-05-13",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports public preview of Copilot CLI agent in JetBrains, worktree/workspace isolation modes, unified sessions view, Ask question tool, and global `.agent.md` support.",
+      "keyPoints": [
+        "JetBrains ???????????? Copilot CLI agent?",
+        "???? worktree isolation ? workspace isolation ???????",
+        "?? unified sessions view ????????????? agent session?"
+      ]
+    },
+    {
+      "slug": "github-team-copilot-usage-metrics-api-2026-05-14",
+      "title": "GitHub Copilot usage metrics API ?? team-level ????",
+      "summary": "GitHub ? Copilot usage metrics API ??? user-teams report??????????chat?CLI ? code review ????? team?",
+      "category": "前端與開發工具",
+      "eventDate": "2026-05-14",
+      "publishedDate": "2026-05-14",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "中",
+      "coverageBuckets": [
+        "ai-tech-tools",
+        "software-frontend-engineering"
+      ],
+      "comparisonTargets": [
+        "Copilot usage metrics API",
+        "team reporting",
+        "enterprise adoption"
+      ],
+      "sources": [
+        {
+          "name": "GitHub Changelog",
+          "url": "https://github.blog/changelog/2026-05-14-team-level-copilot-usage-metrics-now-available-via-api",
+          "publishedDate": "2026-05-14",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the GitHub Changelog post on 2026-05-18. The source supports the new user-teams report, the two REST endpoints, join guidance with per-user reports, and coverage across CLI, code review, chat, and cloud agent; it does not provide a built-in dashboard.",
+      "keyPoints": [
+        "API ?? user-teams report??? Copilot ?????????? team?",
+        "??? per-user report join ????? active users?completions?chat ? model ?????",
+        "??????? REST API????????? dashboard ???"
+      ]
+    },
+    {
+      "slug": "vercel-ai-gateway-provider-sorting-2026-05-15",
+      "title": "Vercel AI Gateway ?????????????? token ????????",
+      "summary": "Vercel ? AI Gateway ? provider routing ???? cost?TTFT ? TPS ?????????????????????",
+      "category": "前端與開發工具",
+      "eventDate": "2026-05-15",
+      "publishedDate": "2026-05-15",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "高",
+      "coverageBuckets": [
+        "ai-tech-tools",
+        "software-frontend-engineering"
+      ],
+      "comparisonTargets": [
+        "Vercel AI Gateway",
+        "provider routing",
+        "cost-latency tradeoff"
+      ],
+      "sources": [
+        {
+          "name": "Vercel Changelog",
+          "url": "https://vercel.com/changelog/sort-providers-by-cost-latency-or-throughput-on-ai-gateway",
+          "publishedDate": "2026-05-15",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the Vercel changelog post on 2026-05-18. The source supports sort options for cost, TTFT, and TPS, request-time ranking, and compatibility with other routing controls like ZDR; it does not claim guaranteed savings for every model/provider set.",
+      "keyPoints": [
+        "AI Gateway ?? `sort` ????? cost?ttft?tps ?????? provider?",
+        "??? request time ???????? provider????????????/?????",
+        "?? ZDR ??? routing ???????"
+      ]
+    },
+    {
+      "slug": "vercel-opus47-fast-mode-ai-gateway-2026-05-12",
+      "title": "Vercel AI Gateway ?? Claude Opus 4.7 Fast mode ????",
+      "summary": "Vercel ? AI Gateway ??? Claude Opus 4.7 Fast mode ???????? 2.5 ??? token ?????????????? 6 ??",
+      "category": "AI 模型與平台",
+      "eventDate": "2026-05-12",
+      "publishedDate": "2026-05-12",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "中",
+      "coverageBuckets": [
+        "ai-tech-tools",
+        "software-frontend-engineering"
+      ],
+      "comparisonTargets": [
+        "AI Gateway",
+        "Claude Opus 4.7",
+        "speed vs cost"
+      ],
+      "sources": [
+        {
+          "name": "Vercel Changelog",
+          "url": "https://vercel.com/changelog/fast-mode-for-opus-4-7-available-on-ai-gateway",
+          "publishedDate": "2026-05-12",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the Vercel changelog post on 2026-05-18. The source supports research preview status, `speed: \"fast\"` provider option, ~2.5x faster output token generation, Claude Code environment variables, and 6x pricing versus standard Opus 4.7.",
+      "keyPoints": [
+        "Fast mode ?? `providerOptions.anthropic.speed = \"fast\"` ???",
+        "????? token ???????? Opus 4.7 intelligence ? 2.5 ??",
+        "Fast mode ????? Opus 4.7 ? 6 ???? research preview?"
+      ]
+    },
+    {
+      "slug": "vercel-firewall-natural-language-rules-2026-05-12",
+      "title": "Vercel Firewall ???????? WAF ??",
+      "summary": "Vercel ????????? Firewall??? WAF ???????????? dashboard ? CLI ???",
+      "category": "前端與開發工具",
+      "eventDate": "2026-05-12",
+      "publishedDate": "2026-05-12",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "高",
+      "coverageBuckets": [
+        "ai-tech-tools",
+        "software-frontend-engineering",
+        "ai-issue"
+      ],
+      "comparisonTargets": [
+        "Vercel Firewall",
+        "WAF custom rules",
+        "natural language security"
+      ],
+      "sources": [
+        {
+          "name": "Vercel Changelog",
+          "url": "https://vercel.com/changelog/create-vercel-waf-custom-rules-using-natural-language",
+          "publishedDate": "2026-05-12",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the Vercel changelog post on 2026-05-18. The source supports natural-language rule creation in Vercel Firewall, example CLI usage, and supported actions like logging, blocking, challenging, rate limiting, and redirecting; it does not state automatic rule correctness guarantees.",
+      "keyPoints": [
+        "????? dashboard ??????????????? WAF custom rule?",
+        "CLI ??? `vercel firewall rules add --ai` ???????",
+        "???? WAF custom rules??? log?block?challenge?rate limit ? redirect?"
+      ]
+    },
+    {
+      "slug": "anthropic-claude-small-business-2026-05-13",
+      "title": "Anthropic ?? Claude for Small Business????????????",
+      "summary": "Anthropic ?? Claude for Small Business?? Claude ?? QuickBooks?PayPal?HubSpot ??????? 15 ? ready-to-run workflows ? 15 ? skills?",
+      "category": "AI 模型與平台",
+      "eventDate": "2026-05-13",
+      "publishedDate": "2026-05-13",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "低",
+      "coverageBuckets": [
+        "ai-tech-tools",
+        "ai-issue"
+      ],
+      "comparisonTargets": [
+        "Claude for Small Business",
+        "SMB workflows",
+        "tool connectors"
+      ],
+      "sources": [
+        {
+          "name": "Anthropic News",
+          "url": "https://www.anthropic.com/news/claude-for-small-business",
+          "publishedDate": "2026-05-13",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the Anthropic news post on 2026-05-18. The source supports launch status, integration targets including QuickBooks/PayPal/HubSpot, the 15 workflows and 15 skills counts, and the approval-before-send framing; it does not provide broad adoption metrics.",
+      "keyPoints": [
+        "Claude for Small Business ??? QuickBooks?PayPal?HubSpot?Canva?DocuSign?Google Workspace ? Microsoft 365?",
+        "???? 15 ? ready-to-run agentic workflows ? 15 ? skills?",
+        "Anthropic ?? Claude ??????????????????????????"
+      ]
+    },
+    {
+      "slug": "anthropic-gates-foundation-partnership-2026-05-14",
+      "title": "Anthropic ? Gates Foundation ?? 2 ???????????????",
+      "summary": "Anthropic ??? Gates Foundation ?? 2 ????????? grant funding?Claude credits ??????????????????????????",
+      "category": "公司與產業動態",
+      "eventDate": "2026-05-14",
+      "publishedDate": "2026-05-14",
+      "checkedAt": "2026-05-18",
+      "weeklyIssueDate": "2026-05-17",
+      "frontendRelevance": "低",
+      "coverageBuckets": [
+        "ai-issue"
+      ],
+      "comparisonTargets": [
+        "Anthropic",
+        "beneficial deployments",
+        "AI in public health"
+      ],
+      "sources": [
+        {
+          "name": "Anthropic News",
+          "url": "https://www.anthropic.com/news/gates-foundation-partnership",
+          "publishedDate": "2026-05-14",
+          "sourceType": "official"
+        }
+      ],
+      "verificationNote": "Verified against the Anthropic news post on 2026-05-18. The source supports the $200 million scale, four-year duration, target domains, and planned creation of connectors, benchmarks, and evaluation frameworks for healthcare intelligence; it does not quantify downstream program outcomes yet.",
+      "keyPoints": [
+        "??????? 2 ???????? grant funding?Claude credits ??????",
+        "????????????????????????",
+        "Anthropic ???? healthcare intelligence ?? connectors?benchmarks ? evaluation frameworks?"
+      ]
+    },
+    {
       "slug": "openai-codex-safety-2026-05-08",
       "title": "OpenAI 說明 Codex 在內部工作流程中的安全治理",
       "summary": "OpenAI 發布「Running Codex safely at OpenAI」，說明其在真實工作流程中部署 Codex 時使用的邊界、網路政策、審批與遙測做法。",

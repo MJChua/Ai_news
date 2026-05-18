@@ -90,7 +90,15 @@ async function hackmdRequest(endpoint, options = {}) {
   }
 
   if (response.status === 204) return null;
-  return response.json();
+
+  const body = await response.text();
+  if (!body.trim()) return null;
+
+  try {
+    return JSON.parse(body);
+  } catch {
+    return body;
+  }
 }
 
 async function pushNotes() {
@@ -113,7 +121,6 @@ async function pushNotes() {
       content,
       readPermission: "owner",
       writePermission: "owner",
-      commentPermission: "disabled",
     };
 
     if (item.hackmdNoteId) {
@@ -149,7 +156,6 @@ async function updateIndexNote(manifest) {
         content,
         readPermission: "owner",
         writePermission: "owner",
-        commentPermission: "disabled",
       }),
     });
     manifest.indexNoteId = indexNoteId;
@@ -163,7 +169,6 @@ async function updateIndexNote(manifest) {
       content,
       readPermission: "owner",
       writePermission: "owner",
-      commentPermission: "disabled",
     }),
   });
   manifest.indexNoteId = note.id;
